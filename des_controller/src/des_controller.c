@@ -30,7 +30,7 @@ void *st_exit(); /*  EXIT 				*/
  ****************************************/
 ctrl_resp_t controller_response; /* response structure */
 person_t person; /* person structure */
-FState f_state = st_ready; /* Initially start at ready state */
+//FState f_state = st_ready; /* Initially start at ready state  TODO pointer to function*/
 
 
 int main(int argc, char* argv[]) {
@@ -53,19 +53,19 @@ int main(int argc, char* argv[]) {
 
 	/* Connect to display */
 	if((coid = ConnectAttach(ND_LOCAL_NODE,dpid,1,_NTO_SIDE_CHANNEL,0)) == -1){
-		prinft("ERROR: Could not connect to des_display");
+		printf("ERROR: Could not connect to des_display");
 		exit(EXIT_FAILURE);
 	}
 
 	while(RUNNING){
 
-		if((rcvid = MsgReceive(chid,&pmsg,sizeof(pmsg),NULL)) == -1){ /* receive message from client */
+		if((rcvid = MsgReceive(chid,&person,sizeof(person),NULL)) == -1){ /* receive message from client */
 				printf("ERROR : Message not received\n"); /* ON FAIL */
 				exit(EXIT_FAILURE);
 		}
 
-		if(person->state == ST_EXIT)
-			st_exit();
+		//if(person.state == ST_EXIT)
+			//st_exit();
 
 	}
 
