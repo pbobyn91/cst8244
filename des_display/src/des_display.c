@@ -69,14 +69,30 @@ void display_current_state(person_t* person){
 		case ST_WS: /* Weigh scale state */
 			printf("%s , %d \n", outMessage[OUT_WEIGHT_MSG], person->weight); /* OUT message with person weight*/
 			break;
-		//case ST_LO:
-		//case ST_RO:
-		//case ST_LC:
-		//case ST_RC:
-		//case ST_GRL:
-		//case ST_GRU:
-		//case ST_GLL:
-		//case ST_GLU:
+		case ST_LO:
+			printf("ST_LO\n");
+			break;
+		case ST_RO:
+			printf("ST_RO\n");
+			break;
+		case ST_LC:
+			printf("ST_LC\n");
+			break;
+		case ST_RC:
+			printf("ST_RC\n");
+			break;
+		case ST_GRL:
+			printf("ST_GRL\n");
+			break;
+		case ST_GRU:
+			printf("ST_GRU\n");
+			break;
+		case ST_GLL:
+			printf("ST_GLL\n");
+			break;
+		case ST_GLU:
+			printf("ST_GLU\n");
+			break;
 		case ST_EXIT:
 			printf("%s \n", outMessage[OUT_EXIT_MSG]);
 			printf("%s \n",outMessage[OUT_STOP_MSG]);

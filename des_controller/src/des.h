@@ -35,25 +35,25 @@ struct ctrl_response{ /* response structure from server, person included in resp
 	char errMsg[128]; /*error message */
 }typedef ctrl_resp_t;
 
-
+typedef void *(*FState)();
 
 #define NUM_STATES 15
 typedef enum /* all states possible in progra, */
 {
-	ST_START = 0, 	/* 0: Start state                */
-	ST_READY = 1, 	/* 1: Ready state                */
+	ST_START = 0, 		/* 0: Start state                */
+	ST_READY = 1, 		/* 1: Ready state                */
 	ST_LS = 2,		/* 2: Left_Scan state            */
 	ST_RS = 3,		/* 3: Right_Scan state           */
-	ST_WS = 4,      /* 4: Weighed state              */
+	ST_WS = 4,     	/* 4: Weighted state              */
 	ST_LO = 5,		/* 5: Left_Open state            */
 	ST_RO = 6,		/* 6: Right_Open state           */
 	ST_LC = 7,		/* 7: Left_Close state           */
 	ST_RC = 8,		/* 8: Right_Close state          */
 	ST_GRL = 9,		/* 9: Guard_Right_Lock state     */
-	ST_GRU = 10,	/* 10: Guard_Right_Unlock state  */
-	ST_GLL = 11,	/* 11: Guard_Left_Lock state     */
-	ST_GLU = 12,	/* 12: Guard_Left_Unlock state   */
-	ST_EXIT = 13,	/* 13: Exit State				 */
+	ST_GRU = 10,		/* 10: Guard_Right_Unlock state  */
+	ST_GLL = 11,		/* 11: Guard_Left_Lock state     */
+	ST_GLU = 12,		/* 12: Guard_Left_Unlock state   */
+	ST_EXIT = 13,		/* 13: Exit State				 */
 	ST_END = 14		/* 14: END STATE 				 */
 } State;
 

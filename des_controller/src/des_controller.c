@@ -30,7 +30,7 @@ void *st_exit(); /*  EXIT 				*/
  ****************************************/
 ctrl_resp_t controller_response; /* response structure */
 person_t person; /* person structure */
-//FState f_state = st_ready; /* Initially start at ready state  TODO pointer to function*/
+FState f_state = st_ready; /* Initially start at ready state  TODO pointer to function*/
 
 
 int main(int argc, char* argv[]) {
@@ -64,9 +64,78 @@ int main(int argc, char* argv[]) {
 				exit(EXIT_FAILURE);
 		}
 
-		//if(person.state == ST_EXIT)
-			//st_exit();
-
+		if(person.state == ST_EXIT)
+			st_exit();
+			
+		
+		/* which function to run? */
+		f_state = (FState)(*f_state)();
+		
+		controller_response.statusCode = EOK;
+		MsgReply(rcvid, EOK, &controller_response, sizeof(controller_response));
+		
+		if (person.state == ST_STOP)
+			break;
 	}
+	
+	ChannelDestroy(chid);
+	ConnectDetach(coid);
+	return EXIT_SUCCESS;
+}
+
+void *st_ready() {		/* READY STATE */
+	if (person.state == ST_LS) {		/* LEFT STATE */
+		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
+			printf("ERROR: Could not send message");
+			exit(EXIT_FAILURE);
+		}
+		return st_ls;
+	} else if (person.state == ST_RS) {	/* RIGHT STATE */
+		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
+			printf("ERROR: Could not send message");
+			exit(EXIT_FAILURE);
+		}
+		return st_rs;
+	}
+	return st_ready;
+}
+
+void *st_ls() {		/* LEFT SCAN */
+	if (person.state == ST_GLU) {
+		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
+			printf("ERROR: Could not send message");
+			exit(EXIT_FAILURE);
+		}
+		return st_glu;
+	}
+	return st_ls;
+}
+
+void *st_glu(){	 /*  GUARD LEFT UNLOCK	*/
+	
+}
+
+void *st_rs() {	 	/* RIGHT SCAN */
+	if (person.state == ST_GRU) {
+		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
+			printf("ERROR: Could not send message");
+			exit(EXIT_FAILURE);
+		}
+	return st_gru;
+	}
+	return st_rs;
+}
+
+void *st_gru(){	 /*  GUARD RIGHT UNLOCK */
 
 }
+
+void *st_lo();	 /*  LEFT OPEN  		*/
+void *st_lc();	 /*  LEFT CLOSE 		*/
+void *st_ro();	 /*  RIGHT OPEN 		*/
+void *st_rc();	 /*  RIGHT CLOSE 		*/
+void *st_grl();	 /*  GUARD RIGHT LOCK 	*/
+void *st_gll();	 /*  GUARD LEFT LOCK 	*/
+void *st_ws();	 /*  WEIGHT SCALE 		*/
+void *st_exit(); /*  EXIT */
+
