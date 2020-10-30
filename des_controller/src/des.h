@@ -123,5 +123,42 @@ const char *outMessage[NUM_OUTPUTS] = {
 	"Stopping controller." 				/* OUT_END 	 - DEBUG		*/
 };
 
+typedef enum {
+	IN_ERR_CONN = 0,
+	IN_ERR_SND = 1,
+	IN_ERR_RSP = 2,
+	IN_ERR_USG = 3,
+	ERR_SRVR_MSG = 4,
+	DP_ERR_CHANNEL_CREATE = 5,
+	DP_ERR_RCV = 6,
+	DP_ERR_RPLY = 7,
+	CTRL_ERR_USG = 8,
+	CTRL_ERR_CHANNEL_CREATE = 9,
+	CTRL_ERR_CONN = 10,
+	CTRL_ERR_RCV = 11,
+	CTRL_ERR_SND = 12
+
+} Error;
+
+#define NUM_ERROR 13
+const char *errorMessages[NUM_ERROR] = {
+	"ERROR: Could not Connect to Controller ./des-input ", /* 0 */
+	"ERROR: Sending Message ./des-input", /* 1 */
+	"ERROR: NULL Response from server ./des-input", /*2*/
+	"ERROR: USAGE - ./des_input <controller-pid>",/*3*/
+	"GENERAL-SERVER-ERROR: ",/*4*/
+	"ERROR: Unable to create Channel ./des-display",/*5*/
+	"ERROR: Message not Received ./des-display",/*6*/
+	"ERROR: Replying to Message ./des-display",/*7*/
+	"ERROR: USAGE - ./des-controller <display pid>",
+	"ERROR: Unable to Create Channel ./des-controller",/*9*/
+	"ERROR: Could not connect to des-display ./des-controller",/*10*/
+	"ERROR: Message not received ./des-controller",/*11*/
+	"ERROR: Could not send Message ./des-controller STATE: ",/*12*/
+
+
+
+};
+
 
 #endif /* DES_H_ */
