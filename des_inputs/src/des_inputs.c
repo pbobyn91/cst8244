@@ -53,7 +53,7 @@ int main(int argc, char* argv[]){
 
 	/* Check if correct number of command line arguments */
 	if(argc !=2){
-		printf("USAGE: ./des_inputs <controller-pid> \n");
+		printf("%s\n", errorMessages[IN_ERR_USG]);
 		exit(EXIT_FAILURE);
 	}
 
@@ -61,13 +61,13 @@ int main(int argc, char* argv[]){
 
 	/* Connect to controller */
 	if((coid = ConnectAttach(ND_LOCAL_NODE,cpid,1,_NTO_SIDE_CHANNEL,0)) == -1){ /* ON FAIL */
-		printf("ERROR: Could not connect to controller\n");
+		printf("%s\n",errorMessages[IN_ERR_CONN]);
 		exit(EXIT_FAILURE);
 	}
 
 
 	while(RUNNING){ /* Infinite Loop */
-		char  input [4]; /* no valid command is more then 4 chars,but will give more room... NOTE redeclared after every loop */
+		char  input [10]; /* no valid command is more then 4 chars,but will give more room... NOTE redeclared after every loop */
 		printf("Enter the event type (ls = left scan, rs = right scan, ws = weight scale, lo = left open, \n"
 				"ro = right open, lc = left closed, rc = right closed, gru = guard right unlock, grl = guard right lock, \n"
 				"gll = guard left lock, glu = guard left unlock, exit = exit programs) \n");
@@ -78,19 +78,21 @@ int main(int argc, char* argv[]){
 
 		/* PHASE II send message to controller */
 		if(MsgSend(coid,&person,sizeof(person),&controller_response,sizeof(controller_response)) == -1){
-			printf("ERROR: Sending Message\n");
+			printf("%s\n",errorMessages[IN_ERR_SND]);
 			exit(EXIT_FAILURE);
 		}
 
 		/* Check if message is null ( null as in no length) */
 		if(sizeof(controller_response) == 0){
-			printf("ERROR: Null response from server\n");
+			printf("%s\n",errorMessages[IN_ERR_RSP]);
 			exit(EXIT_FAILURE);
 		}
 		/* Make sure no error messages */
 		if(controller_response.statusCode !=EOK){ /* DID server generate error?*/
-			printf("ERROR:Message from server: %s\n", controller_response.errMsg);
+			printf("%s %s\n",errorMessages[ERR_SRVR_MSG], controller_response.errMsg);
 		}
+
+		if(person.state == ST_EXIT) break;
 	}
 
 	/* Disconnect from server */
