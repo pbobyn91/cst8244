@@ -16,7 +16,7 @@ void display_current_state(person_t* person); /* function to display the current
 
 int main(void) {
 
-	person_t pmsg; /* persons message */
+	person_t person; /* persons message */
 	ctrl_resp_t response; /* response message from server */
 
 	int chid,rcvid; /* local variables */
@@ -30,26 +30,29 @@ int main(void) {
 		exit(EXIT_FAILURE);
 	}
 
-	print("Display PID : %d\n", getpid()); /* display the Process ID of the server */
+	printf("Display PID = %d\n", getpid()); /* display the Process ID of the server */
 
 	/*****************
 	 * PHASE II
 	 *****************/
 
-	while(RUNNING){ /* normal behavior of a server infinite loop */
+	while(person.state != ST_END){ /* normal behavior of a server infinite loop */
 
-		if((rcvid = MsgReceive(chid,&pmsg,sizeof(pmsg),NULL)) == -1){ /* receive message from client */
+		if((rcvid = MsgReceive(chid,&person,sizeof(person),NULL)) == -1){ /* receive message from client */
 			printf("ERROR : Message not received\n"); /* ON FAIL */
 			exit(EXIT_FAILURE);
 		}
 
-		display_current_state(&pmsg); /* display the current state of the person */
+		display_current_state(&person); /* display the current state of the person */
+
+
 		MsgReply(rcvid, EOK, &response, sizeof(response)); /* reply EOK back to controller */
 
 	}
+	sleep(0.5);
 
 	if(response.statusCode != EOK){
-		printf("ERROR: %s", response.errMsg);
+		printf("ERROR: %s\n", response.errMsg);
 	}
 
 	ChannelDestroy(chid);
@@ -58,16 +61,15 @@ int main(void) {
 }
 void display_current_state(person_t* person){
 
-	int current_state;
 	/* DISPLAY current State messages from outMessage */
-	switch(msg->state){
+	switch(person->state){
 		case ST_LS: /* Left scan*/
 		case ST_RS:/*Right scan*/
-			print("%s %d \n", outMessage[OUT_SCAN_MSG], person->id); /* OUT message with person ID card number*/
+			printf("%s %d \n", outMessage[OUT_LS_RS], person->id); /* OUT message with person ID card number*/
 			break;
 
 		case ST_WS: /* Weigh scale state */
-			printf("%s , %d \n", outMessage[OUT_WEIGHT_MSG], person->weight); /* OUT message with person weight*/
+			printf("%s , %d \n", outMessage[OUT_WS], person->weight); /* OUT message with person weight*/
 			break;
 		case ST_LO:
 			printf("ST_LO\n");
@@ -94,11 +96,11 @@ void display_current_state(person_t* person){
 			printf("ST_GLU\n");
 			break;
 		case ST_EXIT:
-			printf("%s \n", outMessage[OUT_EXIT_MSG]);
-			printf("%s \n",outMessage[OUT_STOP_MSG]);
+			printf("%s \n", outMessage[OUT_EXIT]);
+			printf("%s \n",outMessage[OUT_END]);
 			break;
 		default:
-			printf("ERROR: Invalid input");
+			printf("ERROR: Invalid input\n");
 			break;
 	}
 }

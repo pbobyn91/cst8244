@@ -18,8 +18,7 @@
 #define DES_H_
 
 #define RUNNING  1 /** RUNNING DEFINE FOR INFINITE LOOPS */
-#define RIGHT 0
-#define LEFT  1
+
 
 /* Person structure ( SEND MSG) */
 struct person { /* SENDING person structure to server to process */
@@ -113,8 +112,8 @@ typedef enum /* OUTPUT possibilities, mapped to messages */
 const char *outMessage[NUM_OUTPUTS] = {
 	"Controller PID: ", 				/* OUT_START - REQUIREMENT 	*/
 	"Ready for Person... ", 			/* OUT_READY - DEBUG		*/
-	"Person scanned ID. ID =", 			/* OUT_LS_RS - REQUIREMENT	*/
-	"Person weighed. Weight =",			/* OUT_WS 	 - REQUIREMENT	*/
+	"Person scanned ID. ID = ", 			/* OUT_LS_RS - REQUIREMENT	*/
+	"Person weighed. Weight = ",			/* OUT_WS 	 - REQUIREMENT	*/
 	"Person opened left door.",			/* OUT_LO 	 - DEBUG		*/
 	"Person opened right door.",		/* OUT_RO 	 - DEBUG		*/
 	"Person closed left door. ",		/* OUT_LC 	 - DEBUG		*/

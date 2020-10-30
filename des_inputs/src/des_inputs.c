@@ -67,30 +67,29 @@ int main(int argc, char* argv[]){
 
 
 	while(RUNNING){ /* Infinite Loop */
-		char input[10]=""; /* no valid command is more then 4 chars,but will give more room... NOTE redeclared after every loop */
-		printf("\n Enter the event type (ls = left scan, rs = right scan, ws = weight scale, lo = left open, \n"
+		char  input [4]; /* no valid command is more then 4 chars,but will give more room... NOTE redeclared after every loop */
+		printf("Enter the event type (ls = left scan, rs = right scan, ws = weight scale, lo = left open, \n"
 				"ro = right open, lc = left closed, rc = right closed, gru = guard right unlock, grl = guard right lock, \n"
 				"gll = guard left lock, glu = guard left unlock, exit = exit programs) \n");
 
-		scanf("%s",&input);
-		printf("\n");
+		scanf(" %s",input);
 
 		input_event_prompt(input,&person); /*input*/
 
 		/* PHASE II send message to controller */
 		if(MsgSend(coid,&person,sizeof(person),&controller_response,sizeof(controller_response)) == -1){
-			printf("ERROR: Sending Message");
+			printf("ERROR: Sending Message\n");
 			exit(EXIT_FAILURE);
 		}
 
 		/* Check if message is null ( null as in no length) */
 		if(sizeof(controller_response) == 0){
-			printf("ERROR: Null response from server");
+			printf("ERROR: Null response from server\n");
 			exit(EXIT_FAILURE);
 		}
 		/* Make sure no error messages */
 		if(controller_response.statusCode !=EOK){ /* DID server generate error?*/
-			printf("ERROR:Message from server: %s", controller_response.errMsg);
+			printf("ERROR:Message from server: %s\n", controller_response.errMsg);
 		}
 	}
 
@@ -109,34 +108,35 @@ int main(int argc, char* argv[]){
  * 	the persons transition/states
  * 	will change.
  **************************************/
-void input_event_prompt(char * input, person_t* person){
+void input_event_prompt(char* input, person_t* person){
 
-	if(strcmp(input,inMessage[IN_LS])){
+
+	if(strncmp(input,inMessage[IN_LS],strlen(inMessage[IN_LS])) == 0){
 		person->state = ST_LS; /* SET LEFT SCAN STATE */
 		prompt_for_id(person);/*prompt*/
-	}else if(strcmp(input,inMessage[IN_RS])){
+	}else if(strncmp(input,inMessage[IN_RS],strlen(inMessage[IN_RS])) == 0){
 		person->state = ST_RS;/* SET RIGHT SCAN STATE */
 		prompt_for_id(person);/*prompt*/
-	}else if(strcmp(input,inMessage[IN_WS])){
+	}else if(strncmp(input,inMessage[IN_WS],strlen(inMessage[IN_WS])) == 0){
 		person->state = ST_WS; /* SET WEIGHT SCALE STATE */
 		prompt_for_weight(person);/*prompt*/
-	}else if(strcmp(input,inMessage[IN_LO]))
+	}else if(strncmp(input,inMessage[IN_LO],strlen(inMessage[IN_LO])) == 0)
 		person->state = ST_LO; /* SET LEFT OPEN STATE */
-	else if(strcmp(input,inMessage[IN_RO]))
+	else if(strncmp(input,inMessage[IN_RO],strlen(inMessage[IN_RO])) == 0)
 		person->state = ST_RO; /* SET RIGHT OPEN STATE */
-	else if(strcmp(input,inMessage[IN_LC]))
+	else if(strncmp(input,inMessage[IN_LC],strlen(inMessage[IN_LC])) == 0)
 		person->state = ST_LC; /* SET LEFT CLOSE STATE */
-	else if(strcmp(input,inMessage[IN_RC]))
+	else if(strncmp(input,inMessage[IN_RC],strlen(inMessage[IN_RC])) == 0)
 		person->state = ST_RC; /* SET RIGHT CLOSE STATE */
-	else if(strcmp(input,inMessage[IN_GRL]))
+	else if(strncmp(input,inMessage[IN_GRL],strlen(inMessage[IN_GRL])) == 0)
 		person->state = ST_GRL; /* SET GUARD RIGHT LOCK */
-	else if(strcmp(input,inMessage[IN_GRU]))
+	else if(strncmp(input,inMessage[IN_GRU],strlen(inMessage[IN_GRU])) == 0)
 		person->state = ST_GRU; /* SET GUARD RIGHT UNLOCK */
-	else if(strcmp(input,inMessage[IN_GLL]))
+	else if(strncmp(input,inMessage[IN_GLL],strlen(inMessage[IN_GLL])) == 0)
 		person->state = ST_GLL; /* SET GUARD LEFT LOCK */
-	else if(strcmp(input,inMessage[IN_GLU]))
+	else if(strncmp(input,inMessage[IN_GLU],strlen(inMessage[IN_GLU])) == 0)
 		person->state = ST_GLU; /* SET GUARD LEFT UNLOCK */
-	else if(strcmp(input,inMessage[IN_EXIT]))
+	else if(strncmp(input,inMessage[IN_EXIT],strlen(inMessage[IN_EXIT])) == 0)
 		person->state = ST_EXIT; /* SET EXIT STATE */
 
 }
@@ -149,7 +149,6 @@ void input_event_prompt(char * input, person_t* person){
 void prompt_for_id(person_t* person){
 	printf("Enter ID:\n"); /* enter ID */
 	scanf("%d", &person->id);/* retrieve ID */
-	printf("\n");
 }
 /********************
  * Function: prompt_for_id
@@ -158,9 +157,8 @@ void prompt_for_id(person_t* person){
  * Simple function used to prompt user to enter weight
  ********************/
 void prompt_for_weight(person_t* person){
-	printf("Please Enter your Weight");
+	printf("Please Enter your Weight\n");
 	scanf("%d",&person->weight);
-	printf("\n");
 }
 
 
