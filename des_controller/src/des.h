@@ -36,24 +36,23 @@ struct ctrl_response{ /* response structure from server, person included in resp
 
 typedef void *(*FState)();
 
-#define NUM_STATES 15
+#define NUM_STATES 14
 typedef enum /* all states possible in progra, */
 {
 	ST_START = 0, 		/* 0: Start state                */
-	ST_READY = 1, 		/* 1: Ready state                */
-	ST_LS = 2,		/* 2: Left_Scan state            */
-	ST_RS = 3,		/* 3: Right_Scan state           */
-	ST_WS = 4,     	/* 4: Weighted state              */
-	ST_LO = 5,		/* 5: Left_Open state            */
-	ST_RO = 6,		/* 6: Right_Open state           */
-	ST_LC = 7,		/* 7: Left_Close state           */
-	ST_RC = 8,		/* 8: Right_Close state          */
-	ST_GRL = 9,		/* 9: Guard_Right_Lock state     */
-	ST_GRU = 10,		/* 10: Guard_Right_Unlock state  */
-	ST_GLL = 11,		/* 11: Guard_Left_Lock state     */
-	ST_GLU = 12,		/* 12: Guard_Left_Unlock state   */
-	ST_EXIT = 13,		/* 13: Exit State				 */
-	ST_END = 14		/* 14: END STATE 				 */
+	ST_LS = 1,		/* 2: Left_Scan state            */
+	ST_RS = 2,		/* 3: Right_Scan state           */
+	ST_WS = 3,     	/* 4: Weighted state              */
+	ST_LO = 4,		/* 5: Left_Open state            */
+	ST_RO = 5,		/* 6: Right_Open state           */
+	ST_LC = 6,		/* 7: Left_Close state           */
+	ST_RC = 7,		/* 8: Right_Close state          */
+	ST_GRL = 8,		/* 9: Guard_Right_Lock state     */
+	ST_GRU = 9,		/* 10: Guard_Right_Unlock state  */
+	ST_GLL = 10,		/* 11: Guard_Left_Lock state     */
+	ST_GLU = 11,		/* 12: Guard_Left_Unlock state   */
+	ST_EXIT = 12,		/* 13: Exit State				 */
+	ST_END = 13		/* 14: END STATE 				 */
 } State;
 
 #define NUM_INPUTS 12
@@ -89,29 +88,27 @@ const char *inMessage[NUM_INPUTS] = {
 	"exit" /* IN_EXIT  */
 };
 
-#define NUM_OUTPUTS 14
+#define NUM_OUTPUTS 13
 typedef enum /* OUTPUT possibilities, mapped to messages */
 {
 	OUT_START = 0,  /* START                */
-	OUT_READY = 1,  /* READY 				*/
-	OUT_LS_RS = 2,  /* LEFT-RIGHT SCAN 		*/
-	OUT_WS = 3,     /* WEIGHT SCALE 		*/
-	OUT_LO = 4,     /* LEFT OPEN 			*/
-	OUT_RO = 5,     /* RIGHT OPEN 			*/
-	OUT_LC = 6,     /* LEFT CLOSED 			*/
-	OUT_RC = 7,     /* RIGHT CLOSED 		*/
-	OUT_GRL = 8,    /* GUARD RIGHT LOCKED 	*/
-	OUT_GRU = 9,    /* GUARD RIGHT UNLOCK 	*/
-	OUT_GLL = 10,   /* GUARD LEFT LOCKED 	*/
-	OUT_GLU = 11,   /* GUARD LEFT UNLOCK 	*/
-	OUT_EXIT = 12,  /* EXIT 				*/
-	OUT_END = 13    /* END 					*/
+	OUT_LS_RS = 1,  /* LEFT-RIGHT SCAN 		*/
+	OUT_WS = 2,     /* WEIGHT SCALE 		*/
+	OUT_LO = 3,     /* LEFT OPEN 			*/
+	OUT_RO = 4,     /* RIGHT OPEN 			*/
+	OUT_LC = 5,     /* LEFT CLOSED 			*/
+	OUT_RC = 6,     /* RIGHT CLOSED 		*/
+	OUT_GRL = 7,    /* GUARD RIGHT LOCKED 	*/
+	OUT_GRU = 8,    /* GUARD RIGHT UNLOCK 	*/
+	OUT_GLL = 9,   /* GUARD LEFT LOCKED 	*/
+	OUT_GLU = 10,   /* GUARD LEFT UNLOCK 	*/
+	OUT_EXIT = 11,  /* EXIT 				*/
+	OUT_END = 12    /* END 					*/
 } Output;
 
 /* OUTPUT ENUMS MAPPED TO MESSAGES */
 const char *outMessage[NUM_OUTPUTS] = {
 	"Controller PID: ", 				/* OUT_START - REQUIREMENT 	*/
-	"Ready for Person... ", 			/* OUT_READY - DEBUG		*/
 	"Person scanned ID. ID = ", 			/* OUT_LS_RS - REQUIREMENT	*/
 	"Person weighed. Weight = ",			/* OUT_WS 	 - REQUIREMENT	*/
 	"Person opened left door.",			/* OUT_LO 	 - DEBUG		*/

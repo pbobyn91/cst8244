@@ -23,7 +23,7 @@ void *st_gru();	 /*  GUARD RIGHT UNLOCK */
 void *st_gll();	 /*  GUARD LEFT LOCK 	*/
 void *st_glu();	 /*  GUARD LEFT UNLOCK	*/
 void *st_ws();	 /*  WEIGHT SCALE 		*/
-void *st_ready();/*  READY 				*/
+void *st_start();/*  Start 				*/
 void *st_exit(); /*  EXIT 				*/
 
 void reset();
@@ -34,7 +34,7 @@ void reset();
 ctrl_resp_t controller_response; /* response structure */
 person_t person; /* person structure */
 int coid,chid,rcvid; /* connection id,Channel,return from MsgReceive message */
-FState f_state = st_ready; /* Initially start at ready state  TODO pointer to function*/
+FState f_state = st_start; /* Initially start at ready state  TODO pointer to function*/
 int reset_flag = 0; /* flag used to reset struct if person has left building */
 
 
@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
 	return EXIT_SUCCESS;
 }
 
-void *st_ready() {		/* READY STATE */
+void *st_start() {		/* START STATE */
 	if (person.state == ST_LS) {		/* LEFT STATE */
 		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
 			printf("ERROR: Could not send message\n");
@@ -110,7 +110,7 @@ void *st_ready() {		/* READY STATE */
 		}
 		return st_rs;
 	}
-	return st_ready;
+	return st_start;
 }
 
 void *st_ls() {		/* LEFT SCAN */
@@ -296,7 +296,7 @@ void *st_exit(){  /*  EXIT */
 void reset(){
 	person.id = 0;
 	person.weight = 0;
-	person.state = ST_READY;
+	person.state = ST_START;
 }
 
 
