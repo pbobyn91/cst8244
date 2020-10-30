@@ -26,6 +26,8 @@ void *st_ws();	 /*  WEIGHT SCALE 		*/
 void *st_ready();/*  READY 				*/
 void *st_exit(); /*  EXIT 				*/
 
+void reset();
+
 /****************************************
  * GLOBAL VARIABLES
  ****************************************/
@@ -33,6 +35,7 @@ ctrl_resp_t controller_response; /* response structure */
 person_t person; /* person structure */
 int coid,chid,rcvid; /* connection id,Channel,return from MsgReceive message */
 FState f_state = st_ready; /* Initially start at ready state  TODO pointer to function*/
+int reset_flag = 0; /* flag used to reset struct if person has left building */
 
 
 int main(int argc, char* argv[]) {
@@ -80,10 +83,10 @@ int main(int argc, char* argv[]) {
 		
 		if (person.state == ST_END)
 			break;
-		else if(person.state == ST_GLL || person.state == ST_GRL){
-			person.id = 0;
-			person.weight = 0;
-			person.state = ST_READY;
+
+		if(reset_flag){
+			reset();
+			reset_flag = 0;
 		}
 	}
 	
@@ -132,12 +135,18 @@ void *st_glu(){	 /*  GUARD LEFT UNLOCK	*/
 }
 
 void *st_lo() {	 /*  LEFT OPEN  		*/
-	if (person.state == ST_WS) {
+	if (person.state == ST_WS){ /* IF weighing, then person entered from the right*/
 		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
 			printf("ERROR: Could not send message\n");
 			exit(EXIT_FAILURE);
 		}
 		return st_ws;
+	}else if(person.state == ST_LC){ /* if right closed then person entered from the left */
+		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
+					printf("ERROR: Could not send message\n");
+					exit(EXIT_FAILURE);
+		}
+		return st_lc;
 	}
 	return st_lo;
 }
@@ -230,7 +239,7 @@ void *st_grl(){	 /*  GUARD RIGHT LOCK 	*/
 		return st_glu;
 	}
 
-	return st_grl; /* person is exiting  reset structure in main*/
+	return st_grl;
 }
 
 void *st_gll(){	 /*  GUARD LEFT LOCK 	*/
@@ -240,13 +249,13 @@ void *st_gll(){	 /*  GUARD LEFT LOCK 	*/
 			exit(EXIT_FAILURE);
 		}
 		return st_gru;
-	}else if(person.state == ST_READY){
+	}else if(person.state == ST_RS){
 		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
 			printf("ERROR: Could not send message\n");
 			exit(EXIT_FAILURE);
 		}
 
-		return st_ready;
+		return st_rs;
 	}
 	return st_gll; /* person is exiting reset structure in main */
 }
@@ -259,6 +268,12 @@ void *st_exit(){  /*  EXIT */
 	}
 	person.state = ST_END;
 	return st_exit;
+}
+
+void reset(){
+	person.id = 0;
+	person.weight = 0;
+	person.state = ST_READY;
 }
 
 
