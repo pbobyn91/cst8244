@@ -26,7 +26,7 @@ int main(void) {
 	 ***************/
 	if((chid = ChannelCreate(0)) == -1) /* Create Channel */
 	{ /* ON FAIL */
-		perror("ERROR: Failed to create channel\n");
+		printf("%s\n",errorMessages[DP_ERR_CHANNEL_CREATE]);
 		exit(EXIT_FAILURE);
 	}
 
@@ -36,25 +36,28 @@ int main(void) {
 	 * PHASE II
 	 *****************/
 
-	while(person.state != ST_END){ /* normal behavior of a server infinite loop */
+	while(RUNNING){ /* normal behavior of a server infinite loop */
 
 		if((rcvid = MsgReceive(chid,&person,sizeof(person),NULL)) == -1){ /* receive message from client */
-			printf("ERROR : Message not received\n"); /* ON FAIL */
+			printf("%s\n", errorMessages[DP_ERR_RCV]); /* ON FAIL */
 			exit(EXIT_FAILURE);
 		}
 
 		display_current_state(&person); /* display the current state of the person */
 
+		if(person.state !=ST_EXIT){/* No need to reply on system termination */
+			if(MsgReply(rcvid, EOK, &response, sizeof(response))==-1){
+				printf("%s\n", errorMessages[DP_ERR_RPLY]);/* reply EOK back to controller */
+			}
+		}
 
-		MsgReply(rcvid, EOK, &response, sizeof(response)); /* reply EOK back to controller */
+		if(response.statusCode != EOK){ /*If status is not EOK return error */
+				printf("%s %s\n", errorMessages[ERR_SRVR_MSG],response.errMsg);
+		}
+
+		if(person.state == ST_EXIT) break;
 
 	}
-	sleep(0.5);
-
-	if(response.statusCode != EOK){
-		printf("ERROR: %s\n", response.errMsg);
-	}
-
 	ChannelDestroy(chid);
 	return EXIT_SUCCESS;
 
@@ -96,8 +99,8 @@ void display_current_state(person_t* person){
 			printf("ST_GLU\n");
 			break;
 		case ST_EXIT:
-			printf("%s \n", outMessage[OUT_EXIT]);
-			printf("%s \n",outMessage[OUT_END]);
+			printf("%s\n", outMessage[OUT_EXIT]);
+			printf("%s\n",outMessage[OUT_END]);
 			break;
 		default:
 			printf("ERROR: Invalid input\n");
