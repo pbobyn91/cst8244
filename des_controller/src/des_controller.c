@@ -63,6 +63,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	printf("%s %d\n",outMessage[OUT_START],getpid());
+	reset();
 
 	while(RUNNING){
 
@@ -238,6 +239,20 @@ void *st_grl(){	 /*  GUARD RIGHT LOCK 	*/
 		}
 		return st_glu;
 	}
+	if (person.state == ST_RS) {
+		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
+			printf("ERROR: Could not send message\n");
+			exit(EXIT_FAILURE);
+		}
+		return st_rs;
+	}
+	if (person.state == ST_LS) {
+		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
+			printf("ERROR: Could not send message\n");
+			exit(EXIT_FAILURE);
+		}
+		return st_ls;
+	}
 
 	return st_grl;
 }
@@ -254,6 +269,13 @@ void *st_gll(){	 /*  GUARD LEFT LOCK 	*/
 			printf("ERROR: Could not send message\n");
 			exit(EXIT_FAILURE);
 		}
+		if (person.state == ST_LS) {
+			if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
+				printf("ERROR: Could not send message\n");
+				exit(EXIT_FAILURE);
+			}
+			return st_ls;
+		}
 
 		return st_rs;
 	}
@@ -267,6 +289,7 @@ void *st_exit(){  /*  EXIT */
 		exit(EXIT_FAILURE);
 	}
 	person.state = ST_END;
+	sleep(5);
 	return st_exit;
 }
 
