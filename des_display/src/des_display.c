@@ -13,7 +13,17 @@
  *  Function Declaration
  ***********************/
 void display_current_state(person_t* person); /* function to display the current state of a person */
-
+/**********************************
+ * Function: main
+ * Return: Int
+ * Description: main function for the display
+ * server of the door entry system. function runs
+ * through infinite loop using IPC message passing and
+ * communicating with the controller. With the goal
+ * to receive person_t struct data. This data is able to tell
+ * the display server what is the current state of the person
+ * who has entered the building and display it on the console.
+ *********************************/
 int main(void) {
 
 	person_t person; /* persons message */
@@ -42,7 +52,6 @@ int main(void) {
 			printf("%s\n", errorMessages[DP_ERR_RCV]); /* ON FAIL */
 			exit(EXIT_FAILURE);
 		}
-
 		display_current_state(&person); /* display the current state of the person */
 
 		if(person.state !=ST_EXIT){/* No need to reply on system termination */
@@ -62,6 +71,14 @@ int main(void) {
 	return EXIT_SUCCESS;
 
 }
+/**********************************
+ * Function: display_current_state
+ * Parameters: person_t
+ * Description: This function is used to display
+ * the current state of the person trying to enter or
+ * has entered the building. Using output messages designed
+ * in des.h
+ *********************************/
 void display_current_state(person_t* person){
 
 	/* DISPLAY current State messages from outMessage */
@@ -74,35 +91,34 @@ void display_current_state(person_t* person){
 		case ST_WS: /* Weigh scale state */
 			printf("%s %d \n", outMessage[OUT_WS], person->weight); /* OUT message with person weight*/
 			break;
-		case ST_LO:
-			printf("ST_LO\n");
+		case ST_LO: /* LEFT OPEN */
+			printf("%s\n", outMessage[OUT_LO]);
 			break;
-		case ST_RO:
-			printf("ST_RO\n");
+		case ST_RO:/* RIGHT OPEN */
+			printf("%s\n", outMessage[OUT_RO]);
 			break;
-		case ST_LC:
-			printf("ST_LC\n");
+		case ST_LC: /* LEFT CLOSE */
+			printf("%s\n", outMessage[OUT_LC]);
 			break;
-		case ST_RC:
-			printf("ST_RC\n");
+		case ST_RC:/* RIGHT CLOSE */
+			printf("%s\n", outMessage[OUT_RC]);
 			break;
-		case ST_GRL:
-			printf("ST_GRL\n");
+		case ST_GRL: /* GUARD RIGHT LOCK */
+			printf("%s\n", outMessage[OUT_GRL]);
 			break;
-		case ST_GRU:
-			printf("ST_GRU\n");
+		case ST_GRU: /* GUARD RIGH UNLOCK */
+			printf("%s\n", outMessage[OUT_GRU]);
 			break;
-		case ST_GLL:
-			printf("ST_GLL\n");
+		case ST_GLL: /* GUARD LEFT LOCK */
+			printf("%s\n", outMessage[OUT_GLL]);
 			break;
-		case ST_GLU:
-			printf("ST_GLU\n");
+		case ST_GLU:/* GUARD LEFT UNLOCK */
+			printf("%s\n", outMessage[OUT_GLU]);
 			break;
-		case ST_EXIT:
+		case ST_EXIT: /* EXIT */
 			printf("%s\n", outMessage[OUT_EXIT]);
-			printf("%s\n",outMessage[OUT_END]);
 			break;
-		default:
+		default: /* ERROR INVALID INPUT */
 			printf("ERROR: Invalid input\n");
 			break;
 	}

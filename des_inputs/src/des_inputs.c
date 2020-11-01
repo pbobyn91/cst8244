@@ -67,7 +67,7 @@ int main(int argc, char* argv[]){
 
 
 	while(RUNNING){ /* Infinite Loop */
-		char  input [10]; /* no valid command is more then 4 chars,but will give more room... NOTE redeclared after every loop */
+		char  input [5]; /* no valid command is more then 4 chars,but will give more room... NOTE redeclared after every loop */
 		printf("Enter the event type (ls = left scan, rs = right scan, ws = weight scale, lo = left open, \n"
 				"ro = right open, lc = left closed, rc = right closed, gru = guard right unlock, grl = guard right lock, \n"
 				"gll = guard left lock, glu = guard left unlock, exit = exit programs) \n");
@@ -94,7 +94,7 @@ int main(int argc, char* argv[]){
 
 		if(person.state == ST_EXIT) break;
 	}
-
+	sleep(5);
 	/* Disconnect from server */
 	ConnectDetach(coid);
 	return EXIT_SUCCESS;
@@ -111,7 +111,6 @@ int main(int argc, char* argv[]){
  * 	will change.
  **************************************/
 void input_event_prompt(char* input, person_t* person){
-
 
 	if(strncmp(input,inMessage[IN_LS],strlen(inMessage[IN_LS])) == 0){
 		person->state = ST_LS; /* SET LEFT SCAN STATE */
