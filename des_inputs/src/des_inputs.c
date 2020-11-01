@@ -16,13 +16,10 @@
  **************************************************/
 #include <stdio.h>
 #include <stdlib.h>
-#include <process.h>
 #include <string.h>
 #include <errno.h>
 #include <sys/neutrino.h>
 #include <sys/netmgr.h>
-#include <float.h>
-#include <limits.h>
 #include <unistd.h>
 #include "../../des_controller/src/des.h"
 /**********************

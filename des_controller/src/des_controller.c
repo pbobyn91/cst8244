@@ -1,11 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <process.h>
 #include <unistd.h>
-#include <string.h>
 #include <sys/neutrino.h>
 #include <sys/netmgr.h>
-#include <ctype.h>
 #include <errno.h>
 #include "des.h"
 
@@ -81,7 +78,7 @@ int main(int argc, char* argv[]) {
 				exit(EXIT_FAILURE);
 		}
 		
-		if(person.state == ST_EXIT) /* if state is exit then move to exit state from any state */
+		if(person.state == ST_EXIT) /* if state is exit then move to exit state from any state, avoids adding exit code to every state */
 			f_state = (*st_exit)();
 		else
 			f_state = (FState)(*f_state)(); /* else follow states through function pointers */

@@ -36,7 +36,7 @@ struct ctrl_response{ /* response structure from server, person included in resp
 
 typedef void *(*FState)();
 
-#define NUM_STATES 14
+#define NUM_STATES 13
 typedef enum /* all states possible in progra, */
 {
 	ST_START = 0, 		/* 0: Start state                */
@@ -52,7 +52,6 @@ typedef enum /* all states possible in progra, */
 	ST_GLL = 10,		/* 11: Guard_Left_Lock state     */
 	ST_GLU = 11,		/* 12: Guard_Left_Unlock state   */
 	ST_EXIT = 12,		/* 13: Exit State				 */
-	ST_END = 13		/* 14: END STATE 				 */
 } State;
 
 #define NUM_INPUTS 12
@@ -88,7 +87,7 @@ const char *inMessage[NUM_INPUTS] = {
 	"exit" /* IN_EXIT  */
 };
 
-#define NUM_OUTPUTS 13
+#define NUM_OUTPUTS 12
 typedef enum /* OUTPUT possibilities, mapped to messages */
 {
 	OUT_START = 0,  /* START                */
@@ -103,24 +102,23 @@ typedef enum /* OUTPUT possibilities, mapped to messages */
 	OUT_GLL = 9,   /* GUARD LEFT LOCKED 	*/
 	OUT_GLU = 10,   /* GUARD LEFT UNLOCK 	*/
 	OUT_EXIT = 11,  /* EXIT 				*/
-	OUT_END = 12    /* END 					*/
 } Output;
 
 /* OUTPUT ENUMS MAPPED TO MESSAGES */
 const char *outMessage[NUM_OUTPUTS] = {
-	"Controller PID: ", 				/* OUT_START - REQUIREMENT 	*/
+	"Controller PID: ", 					/* OUT_START - REQUIREMENT 	*/
 	"Person scanned ID. ID = ", 			/* OUT_LS_RS - REQUIREMENT	*/
 	"Person weighed. Weight = ",			/* OUT_WS 	 - REQUIREMENT	*/
-	"Person opened left door.",			/* OUT_LO 	 - DEBUG		*/
-	"Person opened right door.",		/* OUT_RO 	 - DEBUG		*/
-	"Person closed left door. ",		/* OUT_LC 	 - DEBUG		*/
-	"Person closed right door. ",		/* OUT_RC 	 - DEBUG		*/
-	"Right door locked by Guard. ",		/* OUT_GRL 	 - DEBUG		*/
-	"Right door unlocked by Guard. ",	/* OUT_GRU 	 - DEBUG		*/
-	"Left door locked by Guard. ",		/* OUT_GLL 	 - DEBUG		*/
-	"Left door unlocked by Guard. ",	/* OUT_GLU 	 - DEBUG		*/
-	"Exit." 							/* OUT_EXIT  - REQUIREMENT	*/
-	"Stopping controller." 				/* OUT_END 	 - DEBUG		*/
+	"Left door Open.",						/* OUT_LO 	 - DEBUG		*/
+	"Right door Open.",						/* OUT_RO 	 - DEBUG		*/
+	"Left door Closed.",					/* OUT_LC 	 - DEBUG		*/
+	"Right door Closed.",					/* OUT_RC 	 - DEBUG		*/
+	"Right door locked by Guard. ",			/* OUT_GRL 	 - DEBUG		*/
+	"Right door unlocked by Guard. ",		/* OUT_GRU 	 - DEBUG		*/
+	"Left door locked by Guard. ",			/* OUT_GLL 	 - DEBUG		*/
+	"Left door unlocked by Guard. ",		/* OUT_GLU 	 - DEBUG		*/
+	"Exiting Door Entry System..." 			/* OUT_EXIT  - REQUIREMENT	*/
+
 };
 
 typedef enum {
