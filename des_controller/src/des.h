@@ -19,6 +19,9 @@
 
 #define RUNNING  1 /** RUNNING DEFINE FOR INFINITE LOOPS */
 
+#define LEFT 0 /* Going down the LEFT path */
+#define RIGHT 1 /* Going down the RIGHT path */
+#define DEFAULT 2 /* Neither LEFT nor RIGHT selected */
 
 /* Person structure ( SEND MSG) */
 struct person { /* SENDING person structure to server to process */
