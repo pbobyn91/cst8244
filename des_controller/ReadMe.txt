@@ -1,10 +1,10 @@
 Title: des_controller
 
-Author: @came0351@algonquinlive.com, @pbobyn			
+Author: @came0351@algonquinlive.com, @pboby0003@algonquinlive.com			
 
 
 Contribution: The controller was done as a group effort. Multiple different state machines were 
-created, trying everyone of them to determine the best. A Solid team effort was provided for this project
+created, trying everyone of them to determine which one wasthe best. A solid team effort was provided for this project
 since EXIT gracefully was also an issue we had for a while.
 
 Example : 
