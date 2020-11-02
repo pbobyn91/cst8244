@@ -63,6 +63,14 @@ int main(int argc, char* argv[]){
 	}
 
 
+	/** DEFAULT get idle going and the ball rolling */												/* SEND MESSAGE to controller to confirm communication, once message has been replied, and in idling state*/
+	person.state = ST_GRL; /* default IDLE state*/													/* The Door Entry system is Ready for input once in idling state */
+	/*send message early to get controller running idle states */
+	if(MsgSend(coid,&person,sizeof(person),&controller_response,sizeof(controller_response)) == -1){
+		printf("%s\n",errorMessages[IN_ERR_SND]);
+		exit(EXIT_FAILURE);
+	}
+
 	while(RUNNING){ /* Infinite Loop */
 		char  input [5]; /* no valid command is more then 4 chars,but will give more room... NOTE redeclared after every loop */
 		printf("Enter the event type (ls = left scan, rs = right scan, ws = weight scale, lo = left open, \n"

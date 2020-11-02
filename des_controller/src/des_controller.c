@@ -32,6 +32,7 @@ ctrl_resp_t controller_response; /* response structure */
 person_t person; /* person structure */
 int coid,chid,rcvid; /* connection id,Channel,return from MsgReceive message */
 FState f_state = st_start; /* Initially start at ready state  TODO pointer to function*/
+int lrstate = DEFAULT;
 /**********************************
  * Function: main
  * Parameters: int, char*
@@ -107,27 +108,18 @@ int main(int argc, char* argv[]) {
  * on input.
  *
  * NEXT POSSIBLE STATES:
- * LS:
- * RS:
+ * GRL
  *
- * On ERROR returns the current state
+ * The point of the start function is to receive a first message
+ * from the client input to initiate the start of the system
+ * into idling state. DEFAULT is GRL. At the end of the des process
+ * the idling state can possibily be GLL if the person entered
+ * from the right, or be again GRL if use entered from the left
+ *
+ * All errors are handles before hand
  *************************************************/
-void *st_start() {		/* START STATE */
-	if (person.state == ST_LS) {		/* LEFT STATE */
-		/* SEND MESSAGE TO DISPLAY */
-		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){ /*  ON FAIL */
-			printf("%s LS - st_start()\n",errorMessages[CTRL_ERR_SND]);
-			exit(EXIT_FAILURE);
-		}
-		return st_ls; /* returning ls state */
-	} else if (person.state == ST_RS) {	/* RIGHT STATE */
-		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
-			printf("%s RS - st_start()\n",errorMessages[CTRL_ERR_SND]);
-			exit(EXIT_FAILURE);
-		}
-		return st_rs;/* Returning RS state */
-	}
-	return st_start;
+void *st_start() {		/* START STATE  move to idling state, message has been received from inputs*/
+		return st_grl; /* Return the default IDLE state, waiting for a person to scan. */
 }
 /**************************************************
  * Function st_ls
@@ -376,25 +368,28 @@ void *st_rc() {	 /*  RIGHT CLOSE 		*/
  * On ERROR returns the current state
  *************************************************/
 void *st_grl(){	 /*  GUARD RIGHT LOCK 	*/
-	if (person.state == ST_GLU){ /* person entered from the right hand side and must exit the left */
+	if (lrstate == RIGHT && person.state == ST_GLU){ /* person entered from the right hand side and must exit the left */
 		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
 			printf("%s GLU - st_grl()\n",errorMessages[CTRL_ERR_SND]);
 			exit(EXIT_FAILURE);
 		}
+		lrstate = DEFAULT;
 		return st_glu;
 	}
-	if (person.state == ST_RS) { /* GRl is on idle waiting for person to scan right */
+	if (lrstate == DEFAULT && person.state == ST_RS) { /* GRl is on idle waiting for person to scan right */
 		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
 			printf("%s RS - st_grl()\n",errorMessages[CTRL_ERR_SND]);
 			exit(EXIT_FAILURE);
 		}
+		lrstate = RIGHT;
 		return st_rs;
 	}
-	if (person.state == ST_LS) {/* GRL is on idle waiting for person to scan left */
+	if (lrstate == DEFAULT && person.state == ST_LS) {/* GRL is on idle waiting for person to scan left */
 		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
 			printf("%s LS - st_grl()\n",errorMessages[CTRL_ERR_SND]);
 			exit(EXIT_FAILURE);
 		}
+		lrstate = LEFT;
 		return st_ls;
 	}
 
@@ -421,13 +416,14 @@ void *st_grl(){	 /*  GUARD RIGHT LOCK 	*/
  * On ERROR returns the current state
 *************************************************/
 void *st_gll(){	 /*  GUARD LEFT LOCK 	*/
-	if (person.state == ST_GRU){ /* person has entered from the left an must now exit from the right */
+	if (lrstate == LEFT && person.state == ST_GRU){ /* person has entered from the left an must now exit from the right */
 		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
 			printf("%s GRU - st_gll()\n",errorMessages[CTRL_ERR_SND]);
 			exit(EXIT_FAILURE);
 		}
+		lrstate = DEFAULT;
 		return st_gru;
-	}else if(person.state == ST_RS){ /* IDLE state, person entered from the right an has left, wait for next right scan */
+	}else if(lrstate == DEFAULT && (person.state == ST_RS || person.state == ST_LS)){ /* IDLE state, person entered from the right an has left, wait for next right scan */
 		if (MsgSend(coid, &person, sizeof(person), &controller_response, sizeof(controller_response)) == -1){
 			printf("%s RS - st_gll()\n",errorMessages[CTRL_ERR_SND]);
 			exit(EXIT_FAILURE);
@@ -437,9 +433,10 @@ void *st_gll(){	 /*  GUARD LEFT LOCK 	*/
 				printf("%s LS - st_gll()\n",errorMessages[CTRL_ERR_SND]);
 				exit(EXIT_FAILURE);
 			}
+			lrstate = LEFT;
 			return st_ls;
 		}
-
+		lrstate = RIGHT;
 		return st_rs;
 	}
 	return st_gll;
