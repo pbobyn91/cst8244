@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+/* Function Declaration */
+void usage();
+
+int main(int argc, char *argv[]) {
+
+	if (argc != 3){
+		printf("ERROR: You must provide all required arguments.\n");
+		usage();
+		exit(EXIT_FAILURE);
+	}
+}
+
+void usage(){
+
+}

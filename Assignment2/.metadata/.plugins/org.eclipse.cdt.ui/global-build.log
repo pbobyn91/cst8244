@@ -1,0 +1,4 @@
+14:28:33 **** Build of configuration x86_64-debug for project metronome ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/metronome.d,-MT,build/x86_64-debug/src/metronome.o -o build/x86_64-debug/src/metronome.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/metronome.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/metronome   build/x86_64-debug/src/metronome.o  
