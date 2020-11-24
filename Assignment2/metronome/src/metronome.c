@@ -2,18 +2,22 @@
 /*************************
  * Function Declaration
  ************************/
-int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb);
-int io_write(resmgr_context_t *ctp, io_write_t *msg, RESMGR_OCB_T *ocb);
-int io_open(resmgr_context_t *ctp, io_open_t *msg, RESMGR_HANDLE_T *handle,
-		void *extra);
-void *metronome_thread(void*context);
-void usage();
+int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb);/* POSIX I/O Function  @ Override*/
+int io_write(resmgr_context_t *ctp, io_write_t *msg, RESMGR_OCB_T *ocb);/* POSIX I/O Function  @ Override*/
+int io_open(resmgr_context_t *ctp, io_open_t *msg, RESMGR_HANDLE_T *handle,void *extra);/* POSIX Connections Function  @ Override*/
+void *metronome_thread(void*properties); /* Thread Work function */
+void set_timer_props(timer_props_t * timer_props);/* setting timer properties */
+int search_idx_table(metro_props_t * timer_props);/* search through Config table for metronome */
+void stop_timer(struct itimerspec * itime, timer_t timer_id); /* Stops current timer */
+void start_timer(struct itimerspec * itime, timer_t timer_id);/* starts current timer */
+void usage();/* Error message USAGE print out */
 
 /***********************
  * GLOBAL Variables
  ***********************/
 name_attach_t * metro_conn; /* Namespace connection */
-int bpm,tst,tsb;
+timer_props_t timer_props;
+metro_props_t  metro_props;
 int server_coid;
 char data[255];
 
@@ -35,7 +39,6 @@ int main(int argc, char *argv[]) {
 	pthread_attr_t thread_attrib; /* Thread Attributes */
 	dispatch_context_t * ctp; /* Returned Dispatch Context from dispatch_context_alloc()*/
 	int id;
-	metro_props_t metro_props; /* Metronome Device properties (bpm,tst,tsb) */
 
 	int server_coid; /* Thread ID */
 
@@ -46,12 +49,9 @@ int main(int argc, char *argv[]) {
 	}
 
 	/* Process Command Line Arguments - Metronome Properties*/
-	metro_props.bpm = atoi(argv[1]); /* Beats per minute */
-	bpm = atoi(argv[1]);
-	metro_props.tst = atoi(argv[2]); /* time - signature top */
-	tst = atoi(argv[2]);
-	metro_props.tsb = atoi(argv[3]);/* time - signature bottom */
-	tsb = atoi(argv[3]);
+	metro_props.bpm = atoi(argv[1]);
+	metro_props.tst = atoi(argv[2]);
+	metro_props.tsb = atoi(argv[3]);
 
 	/* Allocating dispatch handler */
 	if ((dpp = dispatch_create()) == NULL) {
@@ -117,10 +117,6 @@ void usage() {
  *******************************************/
 int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb) {
 
-	double bps; /* Beats per second */
-	double measure; /* Beat per measure */
-	double interval; /* Sec per interval */
-	double nano_sec; /* nano seconds value */
 	int index; /* Search index */
 	int nb;
 
@@ -128,21 +124,10 @@ int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb) {
 		return 0;
 
 	/* Search for current properties in Metronome Property Table */
-	for(int i = 0; i< 8 ; i++){
-		if (t[i].tsb == tsb && t[i].tst == tst){ /* if properties found in table, save index */
-			index = i;
-			break; /* once found stop searching */
-		}
-	}
+	index = search_idx_table(&metro_props);
 
-	bps = (double) 60 / bpm; /* 60 sec / beats per minute = seconds per beat */
-	/* Beat per Measure */
-	measure = bps * 2; /* beats per second * 2 = beat per measure */
-	/* seconds per interval */
-	interval = measure / tsb;
-	/* Nano Seconds */
-	nano_sec = (interval - (int) interval) * 1e+9;
-	sprintf(data,"[metronome: %d beats/min, time signature: %d/%d, sec-per-interval: %.2f, nanoSecs: %lf]\n",bpm,t[index].tst,t[index].tsb, interval,nano_sec);
+	/* TIMER PROPERTIES Calculated and set ALREADY SET, no point on repeating code bps,measure,interval*/
+	sprintf(data,"[metronome: %d beats/min, time signature: %d/%d, sec-per-interval: %.2f, nanoSecs: %lf]\n",metro_props.bpm,t[index].tst,t[index].tsb, timer_props.interval,timer_props.nano_sec);
 
 
 	nb = strlen(data);
@@ -186,14 +171,10 @@ int io_write(resmgr_context_t *ctp, io_write_t *msg, RESMGR_OCB_T *ocb) {
 	if (msg->i.nbytes == ctp->info.msglen - (ctp->offset + sizeof(*msg))) {
 		/* have all the data */
 		char *buf;
-		char *pause_msg;
-		int i, small_integer;
+		char * pause_msg;
+		char * set_msg;
+		int i, small_integer = 0;
 		buf = (char *) (msg + 1);
-
-		//TODO not sure also need to add stop start
-		//	if(strstr(buf, "set") != NULL){
-
-		//}
 
 		if (strstr(buf, "pause") != NULL) {
 			for (i = 0; i < 2; i++) {
@@ -203,17 +184,34 @@ int io_write(resmgr_context_t *ctp, io_write_t *msg, RESMGR_OCB_T *ocb) {
 			if (small_integer >= 1 && small_integer <= 9) {
 				//FIXME :: replace getprio() with SchedGet()
 				MsgSendPulse(server_coid, SchedGet(0, 0, NULL),
-				PAUSE, small_integer);
+				PAUSE_PULSE_CODE, small_integer);
 			} else {
 				printf("Integer is not between 1 and 9.\n");
 			}
-		} else {
-			strcpy(data, buf);
-		}
-
-		if (strstr(buf, "quit") != NULL) {
+		} else if  (strstr(buf, "quit") != NULL) {
 			MsgSendPulse(server_coid, SchedGet(0, 0, NULL),
-			QUIT, small_integer);
+			QUIT_PULSE_CODE, small_integer);
+		}else if(strstr(buf, "start") != NULL){
+			MsgSendPulse(server_coid,SchedGet(0,0,NULL),START_PULSE_CODE,small_integer);
+		}else if(strstr(buf, "stop") != NULL){
+					MsgSendPulse(server_coid,SchedGet(0,0,NULL),STOP_PULSE_CODE,small_integer);
+		}else if(strstr(buf, "set") != NULL){
+			for(i = 0 ; i < 4 ; i ++){
+				set_msg = strsep(&buf, " "); /* start splitting string */
+
+				if(i == 1){ /* First string BPM */
+					metro_props.bpm = atoi(set_msg);
+				}else if( i == 2){/* SECOND STRING TST */
+					metro_props.tst = atoi(set_msg);
+				}else if( i == 3){/* THIRD STRING TSB */
+					metro_props.tsb = atoi(set_msg);
+				}
+			}
+
+			MsgSendPulse(server_coid,SchedGet(0,0,NULL),SET_PULSE_CODE,small_integer);
+
+		}else{
+			strcpy(data,buf);
 		}
 
 		nb = msg->i.nbytes;
@@ -244,22 +242,19 @@ int io_open(resmgr_context_t *ctp, io_open_t *msg, RESMGR_HANDLE_T *handle,
 	return (iofunc_open_default(ctp, msg, handle, extra));
 }
 
-void *metronome_thread(void * ctp) {
-	metro_props_t * metro_props = ctp;
-	struct sigevent event;
-	struct itimerspec itime;
-	timer_t timer_id;
-	my_message_t msg;
-	int rcvid;
-	double bps = 0; /* Beats per second */
-	double measure = 0; /* Beat per measure */
-	double interval = 0; /* Sec per interval */
-	double nano = 0; /* Nano Seconds */
-	int index = 0;
-	char * tp;
+void *metronome_thread(void * properties) {
+	metro_props_t * metro_props = properties; /* properties of metronome */
+	struct sigevent event; /* event, listening for pulse */
+	struct itimerspec itime; /* timer specs */
+	timer_t timer_id; /* timer id */
+	my_message_t msg; /* message structure */
+	int rcvid; /* return from msg receive */
+	int index = 0; /* indexing */
+	char * tp; /* pointer, going to be used to point to metronome table */
+	int timer_status;
 
 	/* PHASE 1 */
-	if ((metro_conn = name_attach(NULL, METRO_ATTACH, 0)) == NULL) {
+	if ((metro_conn = name_attach(NULL, METRO_ATTACH, 0)) == NULL) {/* attach namespace */
 		printf("Error - name_attach - ./metronome.c \n");
 		exit(EXIT_FAILURE);
 	}
@@ -267,45 +262,25 @@ void *metronome_thread(void * ctp) {
 	/* SETUP EVENT HANDLER */
 	event.sigev_notify = SIGEV_PULSE; /* PULSE TIMER */
 	event.sigev_coid = ConnectAttach(ND_LOCAL_NODE, 0, metro_conn->chid, _NTO_SIDE_CHANNEL, 0); /* Attach Connection for timer */
-	event.sigev_priority = SIGEV_PULSE_PRIO_INHERIT;
+	event.sigev_priority = SIGEV_PULSE_PRIO_INHERIT; /* priority of event/pulse */
 	event.sigev_code = METRO_PULSE_CODE; /* set pulse code to metronome pulse code 0 */
 
 	/* CREATE TIMER ON PULSE EVENT */
 	timer_create(CLOCK_REALTIME, &event, &timer_id);
 
 	/* Search for current properties in table */
-	for (int i = 0; i < 8; i++) {
-		if (t[i].tsb == metro_props->tsb && t[i].tst == metro_props->tst) {
-			index = i;
-			break;
-		}
-	}
+	 index = search_idx_table(metro_props);
 
+	set_timer_props(&timer_props);/* Set properties for timer */ //TODO set everytime there is a change in thread parameters needs to be done in a pulse
 
-	/* TIMER CALCULATION */
-	/* Beats per second */
-	bps = (double) 60 / metro_props->bpm; /* 60 sec / beats per minute = seconds per beat */
-	/* Beat per Measure */
-	measure = bps * 2; /* beats per second * 2 = beat per measure */
-	/* seconds per interval */
-	interval = measure / metro_props->tsb;
-	/* Nano Seconds */
-	nano = interval - (int) interval;
+	start_timer(&itime,timer_id);
 
-	itime.it_value.tv_sec = 1;
-	itime.it_value.tv_nsec = 500000000;
-
-	itime.it_interval.tv_sec = interval;
-	itime.it_interval.tv_nsec = nano * 1e+9;
-
-	timer_settime(timer_id, 0, &itime, NULL);
-
-	tp = t[index].pattern;
+	tp = t[index].pattern;/* table pointer to indexes of pattern string */
 
 	/* PHASE 2 */
 
 	for (;;) {
-		/* PULSE REVEIVED */
+		/* PULSE RECEIVED */
 		if ((rcvid = MsgReceive(metro_conn->chid, &msg, sizeof(msg), NULL))
 				== -1) {
 			printf("Error - MessageReceive() - ./metronome\n");
@@ -314,22 +289,109 @@ void *metronome_thread(void * ctp) {
 
 		if (rcvid == 0) {
 			switch (msg.pulse.code) {
-			case METRO_PULSE_CODE:
-				printf("%c", *tp++);
+			case METRO_PULSE_CODE: /* GENERAL PULSE SENT by timer */
+					if(*tp == '|'){ /* check if first char | */
+						printf("%.2s",tp); /* print first 2 chars */
+						tp = (tp+2);/* pointer now starts at 3 */
+					}else if(*tp == '\0'){ /* check if end of string*/
+						printf("\n");
+						tp = t[index].pattern;/* reset to beginning */
+					}else{
+						printf("%c",*tp++);
+					}
+
 				break;
-			case PAUSE:
+			case PAUSE_PULSE_CODE: /* PAUSE PULSE */
 				itime.it_value.tv_sec = msg.pulse.value.sival_int;
 				timer_settime(timer_id, 0, &itime, NULL);
 				break;
-			case QUIT:
+			case QUIT_PULSE_CODE: /* QUIT PULSE */
 				timer_delete(timer_id);
 				name_detach(metro_conn, 0);
 				name_close(server_coid);
 				exit(EXIT_SUCCESS);
-
+			case SET_PULSE_CODE: /* SET PULSE */
+				 index = search_idx_table(metro_props); /* search for new index * new metronome properties */
+				 tp = t[index].pattern; /* point to new pattern */
+				 set_timer_props(&timer_props);/* set new timer properties */
+				 start_timer(&itime,timer_id);/*start new timer with new props */
+				 printf("\n");/* start on new line */
+				 break;
+			case START_PULSE_CODE: /* START PULSE */
+				if(timer_status == STOPPED){ /* ONLY IF status is stopped */
+					start_timer(&itime,timer_id);
+					timer_status = START;
+				}
+				break;
+			case STOP_PULSE_CODE: /* STOP PULSE */
+				if(timer_status == START || timer_status == PAUSED){ /* only possible to stop if running or paused */
+					stop_timer(&itime,timer_id); /* STOP */
+					timer_status = STOPPED;/* CHANGE STATUS */
+				}
+				break;
 			}
 		}
+		fflush(stdout);
 
 	}
+	return NULL;
+}
+/***********************************************
+ * Function: set_timer_props
+ * Description: Function used to
+ * set the timer properties and
+ * perform the calculations necessary
+ * for the timer to perform the
+ * appropriate intervals before sending a pulse
+ ************************************************/
+void set_timer_props(timer_props_t * timer_props){
+	timer_props->bps = (double) 60 / metro_props.bpm; /* 60 sec / beats per minute = seconds per beat */
+	/* Beat per Measure */
+	timer_props->measure = timer_props->bps * 2; /* beats per second * 2 = beat per measure */
+	/* seconds per interval */
+	timer_props->interval = timer_props->measure / metro_props.tsb;
+	/* Nano Seconds */
+	timer_props->nano_sec = (timer_props->interval - (int) timer_props->interval) * 1e+9;
+
+
+}
+
+/******************************************************
+ * Function: search_idx_table
+ * Description: Used to search through the
+ * table comparing with the props of the command line
+ * arguments and the device properties, to search
+ ******************************************************/
+int search_idx_table(metro_props_t * props){
+	for (int i = 0; i < 8; i++) {
+		if (t[i].tsb == props->tsb && t[i].tst == props->tst) {
+			return i;
+		}
+	}
+	return -1; /* INVALID POSSIBLE ERROR CHECK */
+}
+/*****************************
+ * Function: stop_timer
+ * Description: Used to stop
+ * the current timer.
+ *****************************/
+void stop_timer(struct itimerspec * itime, timer_t  timer_id){
+	itime->it_value.tv_sec  = 0;
+	itime->it_value.tv_nsec = 0;
+	itime->it_interval.tv_sec = 0;
+	itime->it_interval.tv_nsec = 0;
+	timer_settime(timer_id, 0, itime, NULL);
+}
+/*****************************
+ * Function: start_timer
+ * Description: Used to start
+ * the current timer.
+ *****************************/
+void start_timer(struct itimerspec * itime, timer_t timer_id){
+	itime->it_value.tv_sec  = 1;
+	itime->it_value.tv_nsec = 0;
+	itime->it_interval.tv_sec = timer_props.interval;
+	itime->it_interval.tv_nsec = timer_props.nano_sec;
+	timer_settime(timer_id, 0, itime, NULL);
 }
 

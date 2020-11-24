@@ -6,7 +6,9 @@
 #ifndef SRC_METRONOME_H_
 #define SRC_METRONOME_H_
 
-
+/*****************
+ * LIBS
+ *****************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -23,15 +25,37 @@
 #include <sys/iofunc.h>
 #include <sys/dispatch.h>
 
+/*****************
+ * PULSE CODES MIN 0 MAX 127
+ *****************/
+#define METRO_PULSE_CODE _PULSE_CODE_MINAVAIL         //0
+#define PAUSE_PULSE_CODE (_PULSE_CODE_MINAVAIL +1) 	  //1
+#define START_PULSE_CODE (_PULSE_CODE_MINAVAIL +2)    //2
+#define STOP_PULSE_CODE  (_PULSE_CODE_MINAVAIL +3)    //3
+#define QUIT_PULSE_CODE  (_PULSE_CODE_MINAVAIL +4)    //4
+#define SET_PULSE_CODE   (_PULSE_CODE_MINAVAIL +5)    //5
 
-
-#define METRO_PULSE_CODE _PULSE_CODE_MINAVAIL //0
-#define PAUSE (_PULSE_CODE_MINAVAIL +1) //1
-#define QUIT (_PULSE_CODE_MINAVAIL +2) // 2
+/************************
+ * CONNECTIONS | PATH
+ ************************/
 #define METRO_ATTACH  "metronome"
 #define METRO_PATH "/dev/local/metronome"
 
+/***********************
+ * Timer Status
+ **********************/
+#define START 0
+#define STOPPED 1
+#define PAUSED 2
 
+/************************
+ * Additional DEFINES
+ ***********************/
+#define PULSE 0
+
+/***********************
+ * STRUCTS | UNIONS
+ **********************/
 typedef union {
 	struct _pulse pulse;
 	char msg[255];
@@ -55,7 +79,15 @@ struct DataTableRow t[] = {
 		{12, 8, 12, "|1&a2&a3&a4&a"}
 };
 
-struct Properties {
+struct Timer_Properties{
+	double bps; /* Beats per second */
+	double measure; /* Beat per measure */
+	double interval; /* Sec per interval */
+	double nano_sec; /* nano seconds value */
+
+}typedef timer_props_t;
+
+struct Metro_Properties {
 	int bpm;
 	int tst;
 	int tsb;
