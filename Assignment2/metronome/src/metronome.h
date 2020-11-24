@@ -88,6 +88,7 @@ struct Timer_Properties{
 }typedef timer_props_t;
 
 struct Metro_Properties {
+	timer_props_t timer_props;
 	int bpm;
 	int tst;
 	int tsb;

@@ -6,8 +6,8 @@ int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb);/* POSIX I
 int io_write(resmgr_context_t *ctp, io_write_t *msg, RESMGR_OCB_T *ocb);/* POSIX I/O Function  @ Override*/
 int io_open(resmgr_context_t *ctp, io_open_t *msg, RESMGR_HANDLE_T *handle,void *extra);/* POSIX Connections Function  @ Override*/
 void *metronome_thread(void*properties); /* Thread Work function */
-void set_timer_props(timer_props_t * timer_props);/* setting timer properties */
-int search_idx_table(metro_props_t * timer_props);/* search through Config table for metronome */
+void set_timer_props(metro_props_t * metro_props);/* setting timer properties */
+int search_idx_table(metro_props_t * metro_props);/* search through Config table for metronome */
 void stop_timer(struct itimerspec * itime, timer_t timer_id); /* Stops current timer */
 void start_timer(struct itimerspec * itime, timer_t timer_id);/* starts current timer */
 void usage();/* Error message USAGE print out */
@@ -16,7 +16,7 @@ void usage();/* Error message USAGE print out */
  * GLOBAL Variables
  ***********************/
 name_attach_t * metro_conn; /* Namespace connection */
-timer_props_t timer_props;
+//timer_props_t timer_props;
 metro_props_t  metro_props;
 int server_coid;
 char data[255];
@@ -127,7 +127,7 @@ int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb) {
 	index = search_idx_table(&metro_props);
 
 	/* TIMER PROPERTIES Calculated and set ALREADY SET, no point on repeating code bps,measure,interval*/
-	sprintf(data,"[metronome: %d beats/min, time signature: %d/%d, sec-per-interval: %.2f, nanoSecs: %lf]\n",metro_props.bpm,t[index].tst,t[index].tsb, timer_props.interval,timer_props.nano_sec);
+	sprintf(data,"[metronome: %d beats/min, time signature: %d/%d, sec-per-interval: %.2f, nanoSecs: %lf]\n",metro_props.bpm,t[index].tst,t[index].tsb, metro_props.timer_props.interval,metro_props.timer_props.nano_sec);
 
 
 	nb = strlen(data);
@@ -271,7 +271,7 @@ void *metronome_thread(void * properties) {
 	/* Search for current properties in table */
 	 index = search_idx_table(metro_props);
 
-	set_timer_props(&timer_props);/* Set properties for timer */ //TODO set everytime there is a change in thread parameters needs to be done in a pulse
+	set_timer_props(metro_props);/* Set properties for timer */ //TODO set everytime there is a change in thread parameters needs to be done in a pulse
 
 	start_timer(&itime,timer_id);
 
@@ -313,7 +313,7 @@ void *metronome_thread(void * properties) {
 			case SET_PULSE_CODE: /* SET PULSE */
 				 index = search_idx_table(metro_props); /* search for new index * new metronome properties */
 				 tp = t[index].pattern; /* point to new pattern */
-				 set_timer_props(&timer_props);/* set new timer properties */
+				 set_timer_props(metro_props);/* set new timer properties */
 				 start_timer(&itime,timer_id);/*start new timer with new props */
 				 printf("\n");/* start on new line */
 				 break;
@@ -344,14 +344,14 @@ void *metronome_thread(void * properties) {
  * for the timer to perform the
  * appropriate intervals before sending a pulse
  ************************************************/
-void set_timer_props(timer_props_t * timer_props){
-	timer_props->bps = (double) 60 / metro_props.bpm; /* 60 sec / beats per minute = seconds per beat */
+void set_timer_props(metro_props_t * metro_props){
+	metro_props->timer_props.bps = (double) 60 / metro_props->bpm; /* 60 sec / beats per minute = seconds per beat */
 	/* Beat per Measure */
-	timer_props->measure = timer_props->bps * 2; /* beats per second * 2 = beat per measure */
+	metro_props->timer_props.measure = metro_props->timer_props.bps * 2; /* beats per second * 2 = beat per measure */
 	/* seconds per interval */
-	timer_props->interval = timer_props->measure / metro_props.tsb;
+	metro_props->timer_props.interval = metro_props->timer_props.measure / metro_props->tsb;
 	/* Nano Seconds */
-	timer_props->nano_sec = (timer_props->interval - (int) timer_props->interval) * 1e+9;
+	metro_props->timer_props.nano_sec = (metro_props->timer_props.interval - (int) metro_props->timer_props.interval) * 1e+9;
 
 
 }
@@ -390,8 +390,8 @@ void stop_timer(struct itimerspec * itime, timer_t  timer_id){
 void start_timer(struct itimerspec * itime, timer_t timer_id){
 	itime->it_value.tv_sec  = 1;
 	itime->it_value.tv_nsec = 0;
-	itime->it_interval.tv_sec = timer_props.interval;
-	itime->it_interval.tv_nsec = timer_props.nano_sec;
+	itime->it_interval.tv_sec = metro_props.timer_props.interval;
+	itime->it_interval.tv_nsec = metro_props.timer_props.nano_sec;
 	timer_settime(timer_id, 0, itime, NULL);
 }
 
