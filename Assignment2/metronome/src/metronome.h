@@ -22,8 +22,6 @@
 #include <sys/types.h>
 #include <sys/netmgr.h>
 #include <sys/neutrino.h>
-#include <sys/iofunc.h>
-#include <sys/dispatch.h>
 
 /*****************
  * PULSE CODES MIN 0 MAX 127
@@ -35,7 +33,10 @@
 #define QUIT_PULSE_CODE  (_PULSE_CODE_MINAVAIL +4)    //4
 #define SET_PULSE_CODE   (_PULSE_CODE_MINAVAIL +5)    //5
 
-
+struct ioattr_t;
+#define IOFUNC_ATTR_T struct ioattr_t
+#include <sys/iofunc.h>
+#include <sys/dispatch.h>
 typedef struct ioattr_t {
 	iofunc_attr_t attr;
 	int device;

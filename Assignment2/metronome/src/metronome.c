@@ -127,7 +127,7 @@ int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb) {
 	if (data == NULL)
 		return 0;
 
-	if (ocb.attr - device == 1) {
+	if (ocb->attr->device == 1) {
 		printf("This is the help function\n");
 	} else {
 		/* Search for current properties in Metronome Property Table */
@@ -164,6 +164,7 @@ int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb) {
 
 		return (_RESMGR_NPARTS(1));
 	}
+	return 0;
 }
 
 /***************************************
