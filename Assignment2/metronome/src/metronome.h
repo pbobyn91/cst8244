@@ -33,6 +33,9 @@
 #define QUIT_PULSE_CODE  (_PULSE_CODE_MINAVAIL +4)    //4
 #define SET_PULSE_CODE   (_PULSE_CODE_MINAVAIL +5)    //5
 
+/*********************
+ * OVERRIDE iofunc_att_t
+ *********************/
 struct ioattr_t;
 #define IOFUNC_ATTR_T struct ioattr_t
 #include <sys/iofunc.h>
@@ -46,7 +49,7 @@ typedef struct ioattr_t {
  * CONNECTIONS | PATH
  ************************/
 #define METRO_ATTACH  "metronome"
-#define DEVICES 2
+#define DEVICES 2 /* Device amount */
 
 char *devnames[DEVICES] = {
 		"/dev/local/metronome",
@@ -64,6 +67,7 @@ char *devnames[DEVICES] = {
  * Additional DEFINES
  ***********************/
 #define PULSE 0
+#define ERROR -1
 
 /***********************
  * STRUCTS | UNIONS
