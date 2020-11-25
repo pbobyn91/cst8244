@@ -35,11 +35,22 @@
 #define QUIT_PULSE_CODE  (_PULSE_CODE_MINAVAIL +4)    //4
 #define SET_PULSE_CODE   (_PULSE_CODE_MINAVAIL +5)    //5
 
+
+typedef struct ioattr_t {
+	iofunc_attr_t attr;
+	int device;
+} ioattr_t;
+
 /************************
  * CONNECTIONS | PATH
  ************************/
 #define METRO_ATTACH  "metronome"
-#define METRO_PATH "/dev/local/metronome"
+#define DEVICES 2
+
+char *devnames[DEVICES] = {
+		"/dev/local/metronome",
+		"/dev/local/metronome-help"
+};
 
 /***********************
  * Timer Status
