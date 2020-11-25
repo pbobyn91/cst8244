@@ -128,7 +128,8 @@ int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb) {
 		return 0;
 
 	if (ocb->attr->device == 1) {
-		printf("This is the help function\n");
+		sprintf(data,
+				"Metronome Resource Manager (Resmgr)\n\nUsage: metronome <bpm> <ts-top> <ts-bottom>\n\nAPI:\n pause[1-9]\t\t-pause the metronome for 1-9 seconds\n quit:\t\t- quit the metronome\n set <bpm> <ts-top> <ts-bottom>\t- set the metronome to <bpm> ts-top/ts-bottom\n start\t\t- start the metronome from stopped state\n stop\t\t- stop the metronome; use 'start' to resume\n");
 	} else {
 		/* Search for current properties in Metronome Property Table */
 		index = search_idx_table(&metro_props);
@@ -139,32 +140,30 @@ int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb) {
 				metro_props.bpm, t[index].tst, t[index].tsb,
 				metro_props.timer_props.interval,
 				metro_props.timer_props.nano_sec);
-
-		nb = strlen(data);
-
-		//test to see if we have already sent the whole message.
-		if (ocb->offset == nb)
-			return 0;
-
-		//We will return which ever is smaller the size of our data or the size of the buffer
-		nb = min(nb, msg->i.nbytes);
-
-		//Set the number of bytes we will return
-		_IO_SET_READ_NBYTES(ctp, nb);
-
-		//Copy data into reply buffer.
-		SETIOV(ctp->iov, data, nb);
-
-		//update offset into our data used to determine start position for next read.
-		ocb->offset += nb;
-
-		//If we are going to send any bytes update the access time for this resource.
-		if (nb > 0)
-			ocb->attr->flags |= IOFUNC_ATTR_ATIME;
-
-		return (_RESMGR_NPARTS(1));
 	}
-	return 0;
+	nb = strlen(data);
+
+	//test to see if we have already sent the whole message.
+	if (ocb->offset == nb)
+		return 0;
+
+	//We will return which ever is smaller the size of our data or the size of the buffer
+	nb = min(nb, msg->i.nbytes);
+
+	//Set the number of bytes we will return
+	_IO_SET_READ_NBYTES(ctp, nb);
+
+	//Copy data into reply buffer.
+	SETIOV(ctp->iov, data, nb);
+
+	//update offset into our data used to determine start position for next read.
+	ocb->offset += nb;
+
+	//If we are going to send any bytes update the access time for this resource.
+	if (nb > 0)
+		ocb->flags |= IOFUNC_ATTR_ATIME;
+
+	return (_RESMGR_NPARTS(1));
 }
 
 /***************************************
@@ -234,7 +233,7 @@ int io_write(resmgr_context_t *ctp, io_write_t *msg, RESMGR_OCB_T *ocb) {
 	_IO_SET_WRITE_NBYTES(ctp, nb);
 
 	if (msg->i.nbytes > 0)
-		ocb->attr->flags |= IOFUNC_ATTR_MTIME | IOFUNC_ATTR_CTIME;
+		ocb->flags |= IOFUNC_ATTR_MTIME | IOFUNC_ATTR_CTIME;
 
 	return (_RESMGR_NPARTS(0));
 }
@@ -277,7 +276,7 @@ void *metronome_thread(void * properties) {
 	/* SETUP EVENT HANDLER */
 	event.sigev_notify = SIGEV_PULSE; /* PULSE TIMER */
 	event.sigev_coid = ConnectAttach(ND_LOCAL_NODE, 0, metro_conn->chid,
-			_NTO_SIDE_CHANNEL, 0); /* Attach Connection for timer */
+	_NTO_SIDE_CHANNEL, 0); /* Attach Connection for timer */
 	event.sigev_priority = SIGEV_PULSE_PRIO_INHERIT; /* priority of event/pulse */
 	event.sigev_code = METRO_PULSE_CODE; /* set pulse code to metronome pulse code 0 */
 
