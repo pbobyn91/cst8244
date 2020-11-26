@@ -35,24 +35,11 @@
  *
  *****************************************************************************************************************/
 #include "metronome.h"
-/*************************
- * Function Declaration
- ************************/
-int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb);/* POSIX I/O Function  @ Override*/
-int io_write(resmgr_context_t *ctp, io_write_t *msg, RESMGR_OCB_T *ocb);/* POSIX I/O Function  @ Override*/
-int io_open(resmgr_context_t *ctp, io_open_t *msg, RESMGR_HANDLE_T *handle,void *extra);/* POSIX Connections Function  @ Override*/
-void *metronome_thread(void*properties); /* Thread Work function */
-void set_timer_props(metro_props_t * metro_props);/* setting timer properties */
-int search_idx_table(metro_props_t * metro_props);/* search through Config table for metronome */
-void stop_timer(struct itimerspec * itime, timer_t timer_id); /* Stops current timer */
-void start_timer(struct itimerspec * itime, timer_t timer_id);/* starts current timer */
-void usage();/* Error message USAGE print out */
-
 /***********************
  * GLOBAL Variables
  ***********************/
 name_attach_t * metro_conn; /* Namespace connection */
-metro_props_t metro_props; /* metronome properties within timer_properties, since the metronome needs to setup a timer for intervals */
+Metronome_t Metronome;
 int server_coid;
 char data[255];
 
@@ -73,6 +60,8 @@ int main(int argc, char *argv[]) {
 	ioattr_t ioattr[DEVICES];/* I/O attribute structure, attributes associated to Resource Manager */
 	pthread_attr_t thread_attrib; /* Thread Attributes */
 	dispatch_context_t * ctp; /* Returned Dispatch Context from dispatch_context_alloc()*/
+
+
 	int id, i;
 
 	int server_coid; /* Thread ID */
@@ -83,10 +72,20 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE); /* termination */
 	}
 
+    /* Pointing to overriden functions */
+	iofunc_funcs_t metro_ocb_funcs ={
+			_IOFUNC_NFUNCS,
+			metro_ocb_calloc,
+			metro_ocb_free,
+	};
+
+	iofunc_mount_t metro_mount = {0,0,0,0,&metro_ocb_funcs}; /* mount functions to ocb */
+
+
 	/* Process Command Line Arguments - Metronome Properties*/
-	metro_props.bpm = atoi(argv[1]);
-	metro_props.tst = atoi(argv[2]);
-	metro_props.tsb = atoi(argv[3]);
+	Metronome.m_props.bpm = atoi(argv[1]);
+	Metronome.m_props.tst = atoi(argv[2]);
+	Metronome.m_props.tsb = atoi(argv[3]);
 
 	/* Allocating dispatch handler */
 	if ((dpp = dispatch_create()) == NULL) {
@@ -105,6 +104,8 @@ int main(int argc, char *argv[]) {
 		/* Initialize attribute structure with Resource Manager */
 		iofunc_attr_init(&ioattr[i].attr, S_IFCHR | 0666, NULL, NULL);
 		ioattr[i].device = i;
+		ioattr[i].attr.mount = &metro_mount;
+
 
 		/* Attach path to pathname space - Resource Manager */
 		if ((id = resmgr_attach(dpp, NULL, devnames[i], _FTYPE_ANY, 0,
@@ -118,7 +119,7 @@ int main(int argc, char *argv[]) {
 
 	/* Initialize Thread Attribute and Create Thread */
 	pthread_attr_init(&thread_attrib);
-	pthread_create(NULL, &thread_attrib, &metronome_thread, &metro_props);
+	pthread_create(NULL, &thread_attrib, &metronome_thread, &Metronome);
 
 	/* While true */
 	while (1) {
@@ -153,33 +154,35 @@ void usage() {
  *
  * Status: Complete
  *******************************************/
-int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb) {
+int io_read(resmgr_context_t *ctp, io_read_t *msg, metro_ocb_t *mocb) {
+
 	int index; /* Search index */
 	int nb;
+
 
 	if (data == NULL)
 		return 0;
 
-	if (ocb->attr->device == 1) { /* Check if device is /dev/local/metronome-help */
+	if (mocb->ocb.attr->device == 1) { /* Check if device is /dev/local/metronome-help */
 		sprintf(data,
 				"Metronome Resource Manager (Resmgr)\n\nUsage: metronome <bpm> <ts-top> <ts-bottom>\n\nAPI:\n pause[1-9]\t\t-pause the metronome for 1-9 seconds\n quit:\t\t- quit the metronome\n set <bpm> <ts-top> <ts-bottom>\t- set the metronome to <bpm> ts-top/ts-bottom\n start\t\t- start the metronome from stopped state\n stop\t\t- stop the metronome; use 'start' to resume\n");
 	} else { /* else perform /dev/local/metronome tasks */
 
 		/* Search for current properties in Metronome Property Table */
-		index = search_idx_table(&metro_props);
+		index = search_idx_table(&Metronome);
 
 		/* TIMER PROPERTIES Calculated and set ALREADY SET, no point on repeating code bps,measure,interval*/
 
 		sprintf(data,
-				"[metronome: %d beats/min, time signature: %d/%d, sec-per-interval: %.2f, nanoSecs: %lf]\n",
-				metro_props.bpm, t[index].tst, t[index].tsb,
-				metro_props.timer_props.interval,
-				metro_props.timer_props.nano_sec);
+				"[metronome: %d beats/min, time signature: %d/%d, sec-per-interval: %.2f, nanoSecs: %.0lf]\n",
+				Metronome.m_props.bpm, t[index].tst, t[index].tsb,
+				Metronome.t_props.interval,
+				Metronome.t_props.nano_sec);
 	}
 	nb = strlen(data);
 
 	//test to see if we have already sent the whole message.
-	if (ocb->offset == nb)
+	if (mocb->ocb.offset == nb)
 		return 0;
 
 	//We will return which ever is smaller the size of our data or the size of the buffer
@@ -192,11 +195,11 @@ int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb) {
 	SETIOV(ctp->iov, data, nb);
 
 	//update offset into our data used to determine start position for next read.
-	ocb->offset += nb;
+	mocb->ocb.offset += nb;
 
 	//If we are going to send any bytes update the access time for this resource.
 	if (nb > 0)
-		ocb->flags |= IOFUNC_ATTR_ATIME;
+		mocb->ocb.flags |= IOFUNC_ATTR_ATIME;
 
 	return (_RESMGR_NPARTS(1));
 }
@@ -210,7 +213,7 @@ int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb) {
  *
  * Status : Code review, not sure if we should send Min Value
  ****************************************/
-int io_write(resmgr_context_t *ctp, io_write_t *msg, RESMGR_OCB_T *ocb) {
+int io_write(resmgr_context_t *ctp, io_write_t *msg, metro_ocb_t *mocb) {
 
 	int nb = 0;
 
@@ -250,11 +253,11 @@ int io_write(resmgr_context_t *ctp, io_write_t *msg, RESMGR_OCB_T *ocb) {
 				set_msg = strsep(&buf, " "); /* start splitting string  <bpm> <tst> <tsb>*/
 
 				if (i == 1) { /* First string BPM */
-					metro_props.bpm = atoi(set_msg); /* set to new bpm */
+					Metronome.m_props.bpm = atoi(set_msg); /* set to new bpm */
 				} else if (i == 2) {/* SECOND STRING TST */
-					metro_props.tst = atoi(set_msg);/* set to new tst */
+					Metronome.m_props.tst = atoi(set_msg);/* set to new tst */
 				} else if (i == 3) {/* THIRD STRING TSB */
-					metro_props.tsb = atoi(set_msg);/* set to new tsb */
+					Metronome.m_props.tsb = atoi(set_msg);/* set to new tsb */
 				}
 			}
 
@@ -271,7 +274,7 @@ int io_write(resmgr_context_t *ctp, io_write_t *msg, RESMGR_OCB_T *ocb) {
 	_IO_SET_WRITE_NBYTES(ctp, nb);
 
 	if (msg->i.nbytes > 0)
-		ocb->flags |= IOFUNC_ATTR_MTIME | IOFUNC_ATTR_CTIME;
+		mocb->ocb.flags |= IOFUNC_ATTR_MTIME | IOFUNC_ATTR_CTIME;
 
 	return (_RESMGR_NPARTS(0));
 }
@@ -287,15 +290,16 @@ int io_write(resmgr_context_t *ctp, io_write_t *msg, RESMGR_OCB_T *ocb) {
  ****************************************/
 int io_open(resmgr_context_t *ctp, io_open_t *msg, RESMGR_HANDLE_T *handle,
 		void *extra) {
+
 	if ((server_coid = name_open(METRO_ATTACH, 0)) == ERROR) { /* open namespace connection when file is opened */
 		perror("ERROR - name_open failed - io_open() \n "); /* On error */
 		return EXIT_FAILURE;
 	}
-	return (iofunc_open_default(ctp, msg, handle, extra));
+	return (iofunc_open_default(ctp, msg,&handle->attr, extra));
 }
 
-void *metronome_thread(void * properties) {
-	metro_props_t * metro_props = properties; /* properties of metronome */
+void *metronome_thread(void * metronome) {
+	//Metronome_t * Metronome = metronome;
 	struct sigevent event; /* event, listening for pulse */
 	struct itimerspec itime; /* timer specs */
 	timer_t timer_id; /* timer id */
@@ -322,11 +326,11 @@ void *metronome_thread(void * properties) {
 	timer_create(CLOCK_REALTIME, &event, &timer_id);
 
 	/* Search for current properties in table */
-	index = search_idx_table(metro_props);
+	index = search_idx_table(&Metronome);
 
-	set_timer_props(metro_props);/* Set properties for timer */
+	set_timer_props(&Metronome);/* Set properties for timer */
 
-	start_timer(&itime, timer_id);/* start time with props */
+	start_timer(&itime, timer_id,&Metronome);/* start time with props */
 
 	tp = t[index].pattern;/* table pointer to indexes of pattern string */
 
@@ -334,7 +338,7 @@ void *metronome_thread(void * properties) {
 
 	for (;;) {
 		/*Check for Pulse */
-		if ((rcvid = MsgReceive(metro_conn->chid, &msg, sizeof(msg), NULL))
+		if ((rcvid = MsgReceive(metro_conn->chid, &msg, sizeof(msg),NULL))
 				== ERROR) {
 			printf("Error - MessageReceive() - ./metronome\n");
 			exit(EXIT_FAILURE);
@@ -366,15 +370,15 @@ void *metronome_thread(void * properties) {
 				name_close(server_coid); /* close server connection */
 				exit(EXIT_SUCCESS); /* Terminate Program */
 			case SET_PULSE_CODE: /* SET PULSE */
-				index = search_idx_table(metro_props); /* search for new index * new metronome properties */
+				index = search_idx_table(&Metronome); /* search for new index * new metronome properties */
 				tp = t[index].pattern; /* point to new pattern */
-				set_timer_props(metro_props);/* set new timer properties */
-				start_timer(&itime, timer_id);/*start new timer with new props */
+				set_timer_props(&Metronome);/* set new timer properties */
+				start_timer(&itime, timer_id,&Metronome);/*start new timer with new props */
 				printf("\n");/* start on new line */
 				break;
 			case START_PULSE_CODE: /* START PULSE */
 				if (timer_status == STOPPED) { /* ONLY IF status is stopped */
-					start_timer(&itime, timer_id); /* Start timer */
+					start_timer(&itime, timer_id,&Metronome); /* Start timer */
 					timer_status = START;
 				}
 				break;
@@ -399,16 +403,16 @@ void *metronome_thread(void * properties) {
  * for the timer to perform the
  * appropriate intervals before sending a pulse
  ************************************************/
-void set_timer_props(metro_props_t * metro_props) {
-	metro_props->timer_props.bps = (double) 60 / metro_props->bpm; /* 60 sec / beats per minute = seconds per beat */
+void set_timer_props(Metronome_t * Metronome) {
+	Metronome->t_props.bps = (double) 60 / Metronome->m_props.bpm; /* 60 sec / beats per minute = seconds per beat */
 	/* Beat per Measure */
-	metro_props->timer_props.measure = metro_props->timer_props.bps * 2; /* beats per second * 2 = beat per measure */
+	Metronome->t_props.measure = Metronome->t_props.bps * 2; /* beats per second * 2 = beat per measure */
 	/* seconds per interval */
-	metro_props->timer_props.interval = metro_props->timer_props.measure
-			/ metro_props->tsb;
+	Metronome->t_props.interval = Metronome->t_props.measure
+			/ Metronome->m_props.tsb;
 	/* Nano Seconds */
-	metro_props->timer_props.nano_sec = (metro_props->timer_props.interval
-			- (int) metro_props->timer_props.interval) * 1e+9;
+	Metronome->t_props.nano_sec = (Metronome->t_props.interval
+			- (int) Metronome->t_props.interval) * 1e+9;
 
 }
 
@@ -418,9 +422,9 @@ void set_timer_props(metro_props_t * metro_props) {
  * table comparing with the props of the command line
  * arguments and the device properties, to search
  ******************************************************/
-int search_idx_table(metro_props_t * props) {
+int search_idx_table(Metronome_t * Metronome) {
 	for (int i = 0; i < 8; i++) { /* search through table */
-		if (t[i].tsb == props->tsb && t[i].tst == props->tst) {
+		if (t[i].tsb == Metronome->m_props.tsb && t[i].tst == Metronome->m_props.tst) {
 			return i; /* return index if found */
 		}
 	}
@@ -444,12 +448,24 @@ void stop_timer(struct itimerspec * itime, timer_t timer_id) {
  * Description: Used to start
  * the current timer.
  *****************************/
-void start_timer(struct itimerspec * itime, timer_t timer_id) {
+void start_timer(struct itimerspec * itime, timer_t timer_id, Metronome_t* Metronome) {
 	/* START new time with new or current properties properties */
 	itime->it_value.tv_sec = 1;
 	itime->it_value.tv_nsec = 0;
-	itime->it_interval.tv_sec = metro_props.timer_props.interval;
-	itime->it_interval.tv_nsec = metro_props.timer_props.nano_sec;
+	itime->it_interval.tv_sec = Metronome->t_props.interval;
+	itime->it_interval.tv_nsec = Metronome->t_props.nano_sec;
 	timer_settime(timer_id, 0, itime, NULL);
+}
+
+metro_ocb_t * metro_ocb_calloc(resmgr_context_t *ctp, ioattr_t *mattr) {
+	metro_ocb_t *mocb;
+	mocb = calloc(1, sizeof(metro_ocb_t));
+	mocb->ocb.offset = 0;
+	return(mocb);
+}
+
+
+void metro_ocb_free(metro_ocb_t *mocb) {
+	free(mocb);
 }
 
