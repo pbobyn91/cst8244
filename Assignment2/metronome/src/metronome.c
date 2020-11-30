@@ -1,4 +1,3 @@
-
 /******************************************************************************************************************
  *  FILE: metronome.c
  *  Version: 1.0
@@ -38,7 +37,7 @@
 /***********************
  * GLOBAL Variables
  ***********************/
-name_attach_t * metro_conn; /* Namespace connection */
+name_attach_t * attach; /* Namespace connection */
 Metronome_t Metronome;
 int server_coid;
 char data[255];
@@ -53,14 +52,12 @@ char data[255];
  * Status : Complete
  ************************************/
 int main(int argc, char *argv[]) {
-
 	dispatch_t * dpp; /* DISPATCH */
 	resmgr_io_funcs_t io_funcs;/* POSIX level IO function (read,write) */
 	resmgr_connect_funcs_t conn_funcs; /* POSIX level Connection Functions (open) */
 	ioattr_t ioattr[DEVICES];/* I/O attribute structure, attributes associated to Resource Manager */
 	pthread_attr_t thread_attrib; /* Thread Attributes */
-	dispatch_context_t * ctp; /* Returned Dispatch Context from dispatch_context_alloc()*/
-
+	dispatch_context_t * ctp;/* Returned Dispatch Context from dispatch_context_alloc()*/
 
 	int id, i;
 
@@ -72,15 +69,11 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE); /* termination */
 	}
 
-    /* Pointing to overriden functions */
-	iofunc_funcs_t metro_ocb_funcs ={
-			_IOFUNC_NFUNCS,
-			metro_ocb_calloc,
-			metro_ocb_free,
-	};
+	/* Pointing to overriden functions */
+	iofunc_funcs_t metro_ocb_funcs = {
+	_IOFUNC_NFUNCS, metro_ocb_calloc, metro_ocb_free, };
 
-	iofunc_mount_t metro_mount = {0,0,0,0,&metro_ocb_funcs}; /* mount functions to ocb */
-
+	iofunc_mount_t metro_mount = { 0, 0, 0, 0, &metro_ocb_funcs }; /* mount functions to ocb */
 
 	/* Process Command Line Arguments - Metronome Properties*/
 	Metronome.m_props.bpm = atoi(argv[1]);
@@ -104,8 +97,7 @@ int main(int argc, char *argv[]) {
 		/* Initialize attribute structure with Resource Manager */
 		iofunc_attr_init(&ioattr[i].attr, S_IFCHR | 0666, NULL, NULL);
 		ioattr[i].device = i;
-		ioattr[i].attr.mount = &metro_mount;
-
+		ioattr[i].attr.mount = &metro_mount; /* mount ocb overriden funcs*/
 
 		/* Attach path to pathname space - Resource Manager */
 		if ((id = resmgr_attach(dpp, NULL, devnames[i], _FTYPE_ANY, 0,
@@ -114,6 +106,7 @@ int main(int argc, char *argv[]) {
 			return (EXIT_FAILURE); /* On fail Terminate */
 		}
 	}
+
 	/* returns dispatch context */
 	ctp = dispatch_context_alloc(dpp);
 
@@ -123,12 +116,15 @@ int main(int argc, char *argv[]) {
 
 	/* While true */
 	while (1) {
-		ctp = dispatch_block(ctp); /* block while waiting for event  - returns context*/
-		dispatch_handler(ctp); /* handle the event from dispatch block - context */
+			if((ctp = dispatch_block(ctp))){
+				dispatch_handler(ctp);
+			}else
+				printf("ERROR \n");
+
 	}
 
 	pthread_attr_destroy(&thread_attrib); /* destroy thread attributes */
-	name_detach(metro_conn, 0); /* detach from namespace, terminating connection */
+	name_detach(attach, 0); /* detach from namespace, terminating connection */
 	name_close(server_coid); /* close server connection from name_open */
 	return EXIT_SUCCESS; /* Successful TERMINATION */
 
@@ -159,13 +155,12 @@ int io_read(resmgr_context_t *ctp, io_read_t *msg, metro_ocb_t *mocb) {
 	int index; /* Search index */
 	int nb;
 
-
 	if (data == NULL)
 		return 0;
 
-	if (mocb->ocb.attr->device == 1) { /* Check if device is /dev/local/metronome-help */
+	if (mocb->ocb.attr->device == METRONOME_HELP) { /* Check if device is /dev/local/metronome-help */
 		sprintf(data,
-				"Metronome Resource Manager (Resmgr)\n\nUsage: metronome <bpm> <ts-top> <ts-bottom>\n\nAPI:\n pause[1-9]\t\t-pause the metronome for 1-9 seconds\n quit:\t\t- quit the metronome\n set <bpm> <ts-top> <ts-bottom>\t- set the metronome to <bpm> ts-top/ts-bottom\n start\t\t- start the metronome from stopped state\n stop\t\t- stop the metronome; use 'start' to resume\n");
+				"Metronome Resource Manager (Resmgr)\n\nUsage: metronome <bpm> <ts-top> <ts-bottom>\n\nAPI:\n pause[1-9]\t\t\t-pause the metronome for 1-9 seconds\n quit:\t\t\t\t- quit the metronome\n set <bpm> <ts-top> <ts-bottom>\t- set the metronome to <bpm> ts-top/ts-bottom\n start\t\t\t\t- start the metronome from stopped state\n stop\t\t\t\t- stop the metronome; use 'start' to resume\n");
 	} else { /* else perform /dev/local/metronome tasks */
 
 		/* Search for current properties in Metronome Property Table */
@@ -175,8 +170,8 @@ int io_read(resmgr_context_t *ctp, io_read_t *msg, metro_ocb_t *mocb) {
 
 		sprintf(data,
 				"[metronome: %d beats/min, time signature: %d/%d, sec-per-interval: %.2f, nanoSecs: %.0lf]\n",
-				Metronome.m_props.bpm, t[index].tst, t[index].tsb,
-				Metronome.t_props.interval,
+				Metronome.m_props.bpm, t[index].tst,
+				t[index].tsb, Metronome.t_props.interval,
 				Metronome.t_props.nano_sec);
 	}
 	nb = strlen(data);
@@ -211,66 +206,76 @@ int io_read(resmgr_context_t *ctp, io_read_t *msg, metro_ocb_t *mocb) {
  * for our mentronome
  *
  *
- * Status : Code review, not sure if we should send Min Value
+ * Status : Complete
  ****************************************/
 int io_write(resmgr_context_t *ctp, io_write_t *msg, metro_ocb_t *mocb) {
 
 	int nb = 0;
 
-	if (msg->i.nbytes == ctp->info.msglen - (ctp->offset + sizeof(*msg))) {
-		/* have all the data */
-		char *buf; /* current buffer */
-		char * pause_msg; /*use if the message is pause */
-		char * set_msg; /* if set command is used */
-		int i, small_integer = 0; /*integer value for the pause */
-		buf = (char *) (msg + 1); /* add '/0' */
 
-		if (strstr(buf, "pause") != NULL) { /* Check if client sent Pause request */
-			for (i = 0; i < 2; i++) { /* check for both <cmd> <value> */
-				pause_msg = strsep(&buf, " "); /* split the current string */
-			}
-			small_integer = atoi(pause_msg); /* convert the value to int */
-			if (small_integer >= 1 && small_integer <= 9) {/* validation*/
-				//FIXME :: replace getprio() with SchedGet()
-				MsgSendPulse(server_coid, SchedGet(0, 0, NULL), /* send pulse Pause pulse code with value in seconds to pause */
-				PAUSE_PULSE_CODE, small_integer);
-			} else { /* validation error message */
-				printf("Integer is not between 1 and 9.\n");
-			}
+	if (mocb->ocb.attr->device == METRONOME_HELP) { /* Cannot write to device /dev/local/metronome-help */
+		printf("\nError: Cannot Write to device /dev/local/metronome-help\n");
+		nb = msg->i.nbytes;
+		_IO_SET_WRITE_NBYTES(ctp, nb);
+		return (_RESMGR_NPARTS(0));
+	}
 
-		} else if (strstr(buf, "quit") != NULL) { /* Check if request is to quit */
-			MsgSendPulse(server_coid, SchedGet(0, 0, NULL),/* Send QUIT PULSE */
-			QUIT_PULSE_CODE, small_integer);
-		} else if (strstr(buf, "start") != NULL) { /* Check for START request */
-			MsgSendPulse(server_coid, SchedGet(0, 0, NULL), START_PULSE_CODE,
-					small_integer); /* Send Start pulse code */
-		} else if (strstr(buf, "stop") != NULL) { /* Check for Stop request */
-			MsgSendPulse(server_coid, SchedGet(0, 0, NULL), STOP_PULSE_CODE,
-					small_integer); /* Send Stop pulse code */
+		if (msg->i.nbytes == ctp->info.msglen - (ctp->offset + sizeof(*msg))) {
 
-		} else if (strstr(buf, "set") != NULL) { /* Check for set request */
-			for (i = 0; i < 4; i++) { /*split string */
-				set_msg = strsep(&buf, " "); /* start splitting string  <bpm> <tst> <tsb>*/
+			/* have all the data */
+			char *buf; /* current buffer */
+			char * pause_msg; /*use if the message is pause */
+			char * set_msg; /* if set command is used */
+			int i, small_integer = 0; /*integer value for the pause */
+			buf = (char *) (msg + 1); /* add '/0' */
 
-				if (i == 1) { /* First string BPM */
-					Metronome.m_props.bpm = atoi(set_msg); /* set to new bpm */
-				} else if (i == 2) {/* SECOND STRING TST */
-					Metronome.m_props.tst = atoi(set_msg);/* set to new tst */
-				} else if (i == 3) {/* THIRD STRING TSB */
-					Metronome.m_props.tsb = atoi(set_msg);/* set to new tsb */
+			if (strstr(buf, "pause") != NULL) { /* Check if client sent Pause request */
+				for (i = 0; i < 2; i++) { /* check for both <cmd> <value> */
+					pause_msg = strsep(&buf, " "); /* split the current string */
 				}
+				small_integer = atoi(pause_msg); /* convert the value to int */
+				if (small_integer >= 1 && small_integer <= 9) {/* validation*/
+					//FIXME :: replace getprio() with SchedGet()
+					MsgSendPulse(server_coid, SchedGet(0, 0, NULL), /* send pulse Pause pulse code with value in seconds to pause */
+					PAUSE_PULSE_CODE, small_integer);
+				} else { /* validation error message */
+					printf("Integer is not between 1 and 9.\n");
+				}
+
+			} else if (strstr(buf, "quit") != NULL) { /* Check if request is to quit */
+				MsgSendPulse(server_coid, SchedGet(0, 0, NULL),/* Send QUIT PULSE */
+				QUIT_PULSE_CODE, small_integer);
+			} else if (strstr(buf, "start") != NULL) { /* Check for START request */
+				MsgSendPulse(server_coid, SchedGet(0, 0, NULL),
+						START_PULSE_CODE, small_integer); /* Send Start pulse code */
+			} else if (strstr(buf, "stop") != NULL) { /* Check for Stop request */
+				MsgSendPulse(server_coid, SchedGet(0, 0, NULL), STOP_PULSE_CODE,
+						small_integer); /* Send Stop pulse code */
+
+			} else if (strstr(buf, "set") != NULL) { /* Check for set request */
+				for (i = 0; i < 4; i++) { /*split string */
+					set_msg = strsep(&buf, " "); /* start splitting string  <bpm> <tst> <tsb>*/
+
+					if (i == 1) { /* First string BPM */
+						Metronome.m_props.bpm = atoi(set_msg); /* set to new bpm */
+					} else if (i == 2) {/* SECOND STRING TST */
+						Metronome.m_props.tst = atoi(set_msg);/* set to new tst */
+					} else if (i == 3) {/* THIRD STRING TSB */
+						Metronome.m_props.tsb = atoi(set_msg);/* set to new tsb */
+					}
+				}
+
+				MsgSendPulse(server_coid, SchedGet(0, 0, NULL), SET_PULSE_CODE,
+						small_integer); /* Send Set pulse, value doesn't matter since new values are already set */
+
+			} else {
+				printf("\nInvalid Command\n"); /* if ever command is invalid */
+				strcpy(data, buf);
 			}
 
-			MsgSendPulse(server_coid, SchedGet(0, 0, NULL), SET_PULSE_CODE,
-					small_integer); /* Send Set pulse, value doesn't matter since new values are already set */
-
-		} else {
-			printf("\nInvalid Command\n"); /* if ever command is invalid */
-			strcpy(data, buf);
+			nb = msg->i.nbytes;
 		}
 
-		nb = msg->i.nbytes;
-	}
 	_IO_SET_WRITE_NBYTES(ctp, nb);
 
 	if (msg->i.nbytes > 0)
@@ -295,11 +300,10 @@ int io_open(resmgr_context_t *ctp, io_open_t *msg, RESMGR_HANDLE_T *handle,
 		perror("ERROR - name_open failed - io_open() \n "); /* On error */
 		return EXIT_FAILURE;
 	}
-	return (iofunc_open_default(ctp, msg,&handle->attr, extra));
+	return (iofunc_open_default(ctp, msg, &handle->attr, extra));
 }
 
-void *metronome_thread(void * metronome) {
-	//Metronome_t * Metronome = metronome;
+void *metronome_thread(void * ta) {
 	struct sigevent event; /* event, listening for pulse */
 	struct itimerspec itime; /* timer specs */
 	timer_t timer_id; /* timer id */
@@ -307,18 +311,19 @@ void *metronome_thread(void * metronome) {
 	int rcvid; /* return from msg receive */
 	int index = 0; /* indexing */
 	char * tp; /* pointer, going to be used to point to metronome table */
-	int timer_status;
+	int timer_status;/* could have been put in timer_props but meh */
 
 	/* PHASE 1 */
-	if ((metro_conn = name_attach(NULL, METRO_ATTACH, 0)) == NULL) {/* attach namespace */
+	if ((attach = name_attach(NULL, METRO_ATTACH, 0)) == NULL) {/* attach namespace */
 		printf("Error - name_attach - ./metronome.c \n");
 		exit(EXIT_FAILURE);
 	}
 
 	/* SETUP EVENT HANDLER */
 	event.sigev_notify = SIGEV_PULSE; /* PULSE TIMER */
-	event.sigev_coid = ConnectAttach(ND_LOCAL_NODE, 0, metro_conn->chid,
-	_NTO_SIDE_CHANNEL, 0); /* Attach Connection for timer */
+	event.sigev_coid = ConnectAttach(ND_LOCAL_NODE, 0,
+			attach->chid,
+			_NTO_SIDE_CHANNEL, 0); /* Attach Connection for timer */
 	event.sigev_priority = SIGEV_PULSE_PRIO_INHERIT; /* priority of event/pulse */
 	event.sigev_code = METRO_PULSE_CODE; /* set pulse code to metronome pulse code 0 */
 
@@ -330,7 +335,7 @@ void *metronome_thread(void * metronome) {
 
 	set_timer_props(&Metronome);/* Set properties for timer */
 
-	start_timer(&itime, timer_id,&Metronome);/* start time with props */
+	start_timer(&itime, timer_id, &Metronome);/* start time with props */
 
 	tp = t[index].pattern;/* table pointer to indexes of pattern string */
 
@@ -338,8 +343,8 @@ void *metronome_thread(void * metronome) {
 
 	for (;;) {
 		/*Check for Pulse */
-		if ((rcvid = MsgReceive(metro_conn->chid, &msg, sizeof(msg),NULL))
-				== ERROR) {
+		if ((rcvid = MsgReceive(attach->chid, &msg, sizeof(msg),
+				NULL)) == ERROR) {
 			printf("Error - MessageReceive() - ./metronome\n");
 			exit(EXIT_FAILURE);
 		}
@@ -359,26 +364,26 @@ void *metronome_thread(void * metronome) {
 
 				break;
 			case PAUSE_PULSE_CODE: /* PAUSE PULSE */
-				if( timer_status == START){
+				if (timer_status == START) {
 					itime.it_value.tv_sec = msg.pulse.value.sival_int; /*Pause timer for specified amount of seconds */
 					timer_settime(timer_id, 0, &itime, NULL); /* set timer to pause */
 				}
 				break;
 			case QUIT_PULSE_CODE: /* QUIT PULSE */
 				timer_delete(timer_id); /* delete timer */
-				name_detach(metro_conn, 0); /* terminate namespace, close channel */
+				name_detach(attach, 0); /* terminate namespace, close channel */
 				name_close(server_coid); /* close server connection */
 				exit(EXIT_SUCCESS); /* Terminate Program */
 			case SET_PULSE_CODE: /* SET PULSE */
 				index = search_idx_table(&Metronome); /* search for new index * new metronome properties */
 				tp = t[index].pattern; /* point to new pattern */
 				set_timer_props(&Metronome);/* set new timer properties */
-				start_timer(&itime, timer_id,&Metronome);/*start new timer with new props */
+				start_timer(&itime, timer_id, &Metronome);/*start new timer with new props */
 				printf("\n");/* start on new line */
 				break;
 			case START_PULSE_CODE: /* START PULSE */
 				if (timer_status == STOPPED) { /* ONLY IF status is stopped */
-					start_timer(&itime, timer_id,&Metronome); /* Start timer */
+					start_timer(&itime, timer_id, &Metronome); /* Start timer */
 					timer_status = START;
 				}
 				break;
@@ -423,9 +428,11 @@ void set_timer_props(Metronome_t * Metronome) {
  * arguments and the device properties, to search
  ******************************************************/
 int search_idx_table(Metronome_t * Metronome) {
-	for (int i = 0; i < 8; i++) { /* search through table */
-		if (t[i].tsb == Metronome->m_props.tsb && t[i].tst == Metronome->m_props.tst) {
-			return i; /* return index if found */
+	int index = 0;
+	for (index = 0; index < 8; index++) { /* search through table */
+		if (t[index].tsb == Metronome->m_props.tsb
+				&& t[index].tst == Metronome->m_props.tst) {
+			return index; /* return index if found */
 		}
 	}
 	return ERROR; /* INVALID POSSIBLE ERROR CHECK, not implemented, not in specs scope */
@@ -437,10 +444,7 @@ int search_idx_table(Metronome_t * Metronome) {
  *****************************/
 void stop_timer(struct itimerspec * itime, timer_t timer_id) {
 	/* SET TIMEer to 0 to stop */
-	itime->it_value.tv_sec = 0;
-	itime->it_value.tv_nsec = 0;
-	itime->it_interval.tv_sec = 0;
-	itime->it_interval.tv_nsec = 0;
+	itime->it_value.tv_sec = 0; /* Time elapse 0 seconds */
 	timer_settime(timer_id, 0, itime, NULL); /* set new time */
 }
 /*****************************
@@ -448,23 +452,28 @@ void stop_timer(struct itimerspec * itime, timer_t timer_id) {
  * Description: Used to start
  * the current timer.
  *****************************/
-void start_timer(struct itimerspec * itime, timer_t timer_id, Metronome_t* Metronome) {
+void start_timer(struct itimerspec * itime, timer_t timer_id,
+		Metronome_t* Metronome) {
 	/* START new time with new or current properties properties */
 	itime->it_value.tv_sec = 1;
 	itime->it_value.tv_nsec = 0;
-	itime->it_interval.tv_sec = Metronome->t_props.interval;
+	itime->it_interval.tv_sec = Metronome->t_props.interval; /* if ever a set was after a stop resets all values set will start the timer*/
 	itime->it_interval.tv_nsec = Metronome->t_props.nano_sec;
 	timer_settime(timer_id, 0, itime, NULL);
 }
-
+/******************************
+ * Override IOFUNC_OCB_T ocb calloc()
+ ******************************/
 metro_ocb_t * metro_ocb_calloc(resmgr_context_t *ctp, ioattr_t *mattr) {
 	metro_ocb_t *mocb;
 	mocb = calloc(1, sizeof(metro_ocb_t));
 	mocb->ocb.offset = 0;
-	return(mocb);
+	return (mocb);
 }
 
-
+/******************************
+ * Override IOFUNC_OCB_T free()
+ ******************************/
 void metro_ocb_free(metro_ocb_t *mocb) {
 	free(mocb);
 }

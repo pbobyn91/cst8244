@@ -113,6 +113,7 @@ char *devnames[DEVICES] = {
 		"/dev/local/metronome-help"
 };
 
+
 /*********************
  * OVERRIDE iofunc_att_t
  *********************/
@@ -123,7 +124,6 @@ typedef struct ioattr_t {
 
 typedef struct metro_ocb{
 	iofunc_ocb_t ocb;
-	//Metronome_t *Metronome;
 	char buffer[50];
 }metro_ocb_t;
 
@@ -139,7 +139,7 @@ int search_idx_table(Metronome_t * Metronome);/* search through Config table for
 void stop_timer(struct itimerspec * itime, timer_t timer_id); /* Stops current timer */
 void start_timer(struct itimerspec * itime, timer_t timer_id,Metronome_t* Metronome);/* starts current timer */
 void usage();/* Error message USAGE print out */
-IOFUNC_OCB_T* metro_ocb_calloc(resmgr_context_t *ctp, IOFUNC_ATTR_T *mtattr);
+metro_ocb_t * metro_ocb_calloc(resmgr_context_t *ctp, IOFUNC_ATTR_T *mtattr);
 void metro_ocb_free(IOFUNC_OCB_T *mocb);
 
 

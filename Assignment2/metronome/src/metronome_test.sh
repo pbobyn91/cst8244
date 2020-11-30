@@ -31,6 +31,19 @@ sleep 10
 echo "\n"
 echo "\n"
 
+
+#Unit Test : Write to metronome-help
+echo "********************************************"
+echo "Unit Test [Additional] \necho stop > /dev/local/metronome-help"
+echo "Expected: Cannot Write to Device /dev/local/metronome-help"
+echo "Output:\n"
+echo stop > /dev/local/metronome-help
+echo "********************************************"
+sleep 10
+
+echo "\n"
+echo "\n"
+
 #Unit Test 3  : Demo E and F
 echo "********************************************"
 echo "Unit Test [3] \necho set 100 2 4 >/dev/local/metrnonome\ncat /dev/local/metronome"
@@ -150,7 +163,7 @@ sleep 10
 echo "\n"
 echo "\n"
 
-#Unit Test 14 : Demo S
+#Unit Test 13 : Demo S
 echo "********************************************"
 echo "Unit Test [13] \necho bogus > /dev/local/metronome"
 echo "Expected: Error Message: Invalid Command"
@@ -163,7 +176,7 @@ echo "\n"
 
 #Unit Test 15 Demo : W
 echo "********************************************"
-echo "Unit Test [14] \necho quit > /dev/local/metronome"
+echo "Unit Test [15] \necho quit > /dev/local/metronome"
 echo "Expected: metronome gracefully terminates."
 echo quit > /dev/local/metronome 
 echo "********************************************"
