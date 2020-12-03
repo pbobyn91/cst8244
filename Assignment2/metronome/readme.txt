@@ -14,4 +14,6 @@ I worked mostly on the write io function and metronome_thread while Pat worked o
 to get metronome-help working.once completed he met me in metronome_thread to complete the project. 
 The rest of the work was done in a team. Fixing bugs we each took our turn cracking at them.
 
--Patrick Bobyn: 
+- Patrick Bobyn: This assignment was a team effort, the devices were seperated. John mostly worked 
+on metronome where I took metronome-help. Although I also did work on the io_read and main while John did 
+io_write. We fixed bugs by taking turns to figure them out. 
