@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <process.h>
+#include <sys/neutrino.h>
+#include <sys/netmgr.h>
+#include <string.h>
+
+#include "../../calc_server/src/calc_message.h"
+
+void usage();
+
+int main(int argc, char* argv[]) {
+
+	pid_t server_pid;
+	client_send_t send;
+	server_response_t resp;
+	int coid;
+
+	if (argc != 5){
+		fprintf("Expected result: usage message of calc_client");
+		usage();
+		exit(EXIT_FAILURE);
+	}
+
+	server_pid = atoi(argv[1]);
+	send.left_hand = atoi(argv[2]);
+	send.operator = atoi(argv[3]);
+	send.right_hand = atoi(argv[4]);
+
+	coid = ConnectAttach (ND_LOCAL_NODE, server_pid, 1 ,_NTP_SIDE_CHANNEL, 0);
+	if (coid == -1) {
+		fprintf(stderr, "Expected result: error, as cal_client can't connect attached to processID %d\n", server_pid);
+		exit(EXIT_FAILURE);
+	}
+
+	if (MsgSend(coid, &send, sizeof(send), &resp, sizeof(resp)) == -1){
+		fprintf(stderr, "MsgSend had an error\n");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void usage(){
+	printf("Usage: ./calcclient <server-pid> <left-hand> <operator> <right-hand>\n");
+}

@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <process.h>
+#include <string.h>
+#include <errno.h>
+#include <unistd.h>
+#include <sys/neutrino.h>
+
+#include "calc_message.h"
+
+int main(void) {
+
+	client_send_t send;
+	server_response_t resp;
+	int chid, rcvid;
+
+	chid = ChannelCreate(0);
+	if (chid == -1){
+		fprintf(stderr, "Could not create channel\n");
+		exit(EXIT_FAILURE);
+	}
+
+	printf("CalcServer PID: %d\n", getpid());
+
+	while(1) {
+		rcvid = MsgReceive(chid, (void*)&send, sizeof(send), nULL);
+		resp.statusCode = SRVR_OK;
+
+		switch(resp.operator){
+		case "+":
+			break;
+		case "-":
+			break;
+		case "x":
+			break;
+		case "/":
+			break;
+		default:
+			resp.statusCode = SRVR_INVALID_OPERATOR;
+			sprintf(resp.errorMsg, "SRVR_INVALID_OPERATOR: %c", resp.operator);
+		}
+
+		MsgReply(rcvid, EOK, &resp, sizeof(resp));
+	}
+
+	ChannelDestroy(chid);
+	return EXIT_SUCCESS;
+}

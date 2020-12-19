@@ -1,0 +1,13 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <process.h>
+#include <string.h>
+#include <errno.h>
+#include <unistd.h>
+#include <sys/neutrino.h>
+
+#include "calc_message.h"
+
+int main(void) {
+
+}

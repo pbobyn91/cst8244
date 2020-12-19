@@ -1,0 +1,19 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+char data[255];
+int server_coid;
+
+typedef union {
+    struct _pulse pulse;
+    char msg[255];
+} my_message_t;
+
+@Override int io_read();
+@Override int io_write()
+
+
+int main(void) {
+	puts("Hello World!!!"); /* prints Hello World!!! */
+	return EXIT_SUCCESS;
+}

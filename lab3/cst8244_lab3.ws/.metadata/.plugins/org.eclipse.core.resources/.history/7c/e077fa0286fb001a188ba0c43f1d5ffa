@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+volatile sig_atomic_t usr1Happened = 0;
+void sig_handler(int sig);
+
+int main(void) {
+
+	pid_t pid;
+	int rv;
+	int numchild;
+
+
+	struct sigaction sa;
+	sa.sa_handler = sig_handler;
+	sa.sa_flags = 0; // or SA_RESTART
+	sigemptyset(&sa.sa_mask);
+
+	if (sigaction(SIGUSR1, &sa, NULL) == -1) {
+		perror("sigaction");
+		exit(1);
+	}
+
+	printf("Enter the number of children:");
+
+
+	switch (pid = fork()){
+
+	case -1:
+		perror("fork");
+		exit(1);
+
+	case 0:
+		printf("CHILD: This is the child process!\n");
+
+		exit(rv);
+
+	default:
+		printf("PARENT: This is the parent process!\n");
+
+		wait(&rv);
+		print("PARENT: My child's exit status is %d\n", WEXITSTATUS(rv));
+	}
+	return EXIT_SUCCESS;
+}
+
+void sig_handler() {
+	printf("PID = %d : Child Received USR1.\n", getpid());
+	usr1Happened++;
+}

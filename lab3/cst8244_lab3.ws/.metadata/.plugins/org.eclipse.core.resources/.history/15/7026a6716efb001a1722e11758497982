@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <limits.h>
+
+volatile sig_atomic_t usr1Happened = 0;
+
+void sig_handler();
+
+int main(void) {
+
+	struct sigaction sa;
+
+	sa.sa_handler = sig_handler;
+	sa.sa_flags = 0; // or SA_RESTART
+	sigemptyset(&sa.sa_mask);
+
+	if (sigaction(SIGUSR1, &sa, NULL) == -1) {
+		perror("sigaction");
+		exit(1);
+	}
+
+	printf("PID = %d : Running...", getpid());
+
+	while(!usr1Happened){}
+
+	printf("PID = %d : Exiting.\n", getpid());
+
+	return EXIT_SUCCESS;
+}
+
+void sig_handler() {
+	printf("PID = %d : Received USR1.\n", getpid());
+	usr1Happened = 1;
+}

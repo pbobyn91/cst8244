@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <limits.h>
+
+int main(void) {
+	puts("Hello World from QNX Neutrino RTOS!!!");
+
+	puts("@author Patrick Bobyn [boby0003@algonquinlive.com");
+	puts("I like video games");
+	puts("");
+
+	printf("\n");
+	printf("My PID is: %d\n", getpid());
+	printf("My Parent's PID is: %d\n", getppid());
+	printf("\n");
+
+	puts("Enter 'q' tp quit:");
+	getchar();
+	return EXIT_SUCCESS;
+}

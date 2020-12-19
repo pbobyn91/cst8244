@@ -1,0 +1,9 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "../../calc_server/src/calc_message.h"
+
+int main(void) {
+	puts("Hello World!!!"); /* prints Hello World!!! */
+	return EXIT_SUCCESS;
+}

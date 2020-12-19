@@ -1,0 +1,6 @@
+14:42:40 **** Clean-only build of configuration x86_64-debug for project partA_sighandler ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+
+14:42:40 Build Finished (took 111ms)
+

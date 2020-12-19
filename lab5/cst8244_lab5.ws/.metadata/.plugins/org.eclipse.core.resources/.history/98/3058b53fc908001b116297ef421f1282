@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <process.h>
+#include <sys/neutrino.h>
+#include <sys/netmgr.h>
+#include <string.h>
+
+#include "../../calc_server/src/calc_message.h"
+
+void usage();
+
+int main(int argc, char* argv[]) {
+
+	pid_t server_pid;
+	client_send_t send;
+	int coid;
+
+	if (argc != 5){
+		fprintf(stderr, "ERROR: Need all required arguments.\n");
+		usage();
+		exit(EXIT_FAILURE);
+	}
+
+	server_pid = atoi(argv[1]);
+	send.left_hand = atoi(argv[2]);
+	send.operator = atoi(argv[3]);
+	send.right_hand = atoi(argv[4]);
+
+	coid = ConnectAttach (ND_LOCAL_NODE, server_pid, 1 ,_NTP_SIDE_CHANNEL, 0);
+
+}
+
+void usage(){
+	printf("USAGE:\n");
+	printf("./calcclient <server-pid> <left-hand> <operator> <right-hand>\n");
+	printf("<operator> has to be '+', '-', 'x' or '/'\n");
+}

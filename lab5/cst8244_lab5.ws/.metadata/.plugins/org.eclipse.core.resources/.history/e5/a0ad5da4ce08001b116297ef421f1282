@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <process.h>
+#include <string.h>
+#include <errno.h>
+#include <unistd.h>
+#include <sys/neutrino.h>
+
+#include "calc_message.h"
+
+int main(void) {
+
+	client_send_t send;
+	server_response_t resp;
+	int chid, rcvid;
+
+	chid = ChannelCreate(0);
+	if (chid == -1){
+		fprintf(stderr, "Could not create channel\n");
+		exit(EXIT_FAILURE);
+	}
+
+	printf("CalcServer PID: %d\n", getpid());
+
+	while(1) {
+		rcvid = MsgReceive(chid, (void*)&send, sizeof(send), nULL);
+		resp.statusCode = SRVR_OK;
+
+		switch(resp.operator){
+		case "+":
+			break;
+		case "-":
+			break;
+		case "x":
+			break;
+		case "/":
+			if (send.right_hand == 0){
+				resp.statusCode = SRVR_UNDEFINED;
+				sprintf(resp.errorMsg, "SRVR_UNDEFINED: %d / %d", send.left_hand, send.right_hand);
+				break;
+			}
+			if ((msg.right_hand == -1) && (msg.left_hand == INT_MIN)){
+				resp.statuscode = SRVR_OVERFLOW;
+				sprintf(resp.errorMsg, "SRVR_OVERFLOW: %d / %d", send.left_hand, send.right_hand);
+				break;
+			}
+			resp.answer = (dobule) send.left_hand / (double) send.right_hand;
+			break;
+		default:
+			resp.statusCode = SRVR_INVALID_OPERATOR;
+			sprintf(resp.errorMsg, "SRVR_INVALID_OPERATOR: %c", resp.operator);
+		}
+
+		MsgReply(rcvid, EOK, &resp, sizeof(resp));
+	}
+
+	ChannelDestroy(chid);
+	return EXIT_SUCCESS;
+}

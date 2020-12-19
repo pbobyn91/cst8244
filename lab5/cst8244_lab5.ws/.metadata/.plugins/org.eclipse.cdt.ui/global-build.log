@@ -1,0 +1,345 @@
+13:41:47 **** Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_server.d,-MT,build/x86_64-debug/src/calc_server.o -o build/x86_64-debug/src/calc_server.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_server.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_server   build/x86_64-debug/src/calc_server.o  
+13:42:03 **** Build of configuration x86_64-debug for project calc_client ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_client.d,-MT,build/x86_64-debug/src/calc_client.o -o build/x86_64-debug/src/calc_client.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_client.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_client   build/x86_64-debug/src/calc_client.o  
+15:36:18 **** Incremental Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_server.d,-MT,build/x86_64-debug/src/calc_server.o -o build/x86_64-debug/src/calc_server.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_server.c
+src/calc_server.c: In function 'main':
+src/calc_server.c:26:56: error: 'nULL' undeclared (first use in this function)
+   rcvid = MsgReceive(chid, (void*)&send, sizeof(send), nULL);
+                                                        ^
+src/calc_server.c:26:56: note: each undeclared identifier is reported only once for each function it appears in
+src/calc_server.c:29:14: error: 'server_response_t {aka struct server_response}' has no member named 'operator'
+   switch(resp.operator){
+              ^
+src/calc_server.c:68:57: error: 'server_response_t {aka struct server_response}' has no member named 'operator'
+    sprintf(resp.errorMsg, "INVALID OPERATOR: %c\n", resp.operator);
+                                                         ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/calc_server.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/calc_server.o' failed
+15:36:51 **** Incremental Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_server.d,-MT,build/x86_64-debug/src/calc_server.o -o build/x86_64-debug/src/calc_server.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_server.c
+src/calc_server.c: In function 'main':
+src/calc_server.c:30:3: error: case label does not reduce to an integer constant
+   case "+":
+   ^
+src/calc_server.c:39:3: error: case label does not reduce to an integer constant
+   case "-":
+   ^
+src/calc_server.c:49:3: error: case label does not reduce to an integer constant
+   case "x":
+   ^
+src/calc_server.c:58:3: error: case label does not reduce to an integer constant
+   case "/":
+   ^
+src/calc_server.c:68:57: error: 'server_response_t {aka struct server_response}' has no member named 'operator'
+    sprintf(resp.errorMsg, "INVALID OPERATOR: %c\n", resp.operator);
+                                                         ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/calc_server.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/calc_server.o' failed
+15:36:58 **** Clean-only build of configuration x86_64-debug for project calc_client ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+15:36:59 **** Clean-only build of configuration x86_64-debug for project calc_server ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+15:37:00 **** Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_server.d,-MT,build/x86_64-debug/src/calc_server.o -o build/x86_64-debug/src/calc_server.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_server.c
+src/calc_server.c: In function 'main':
+src/calc_server.c:30:3: error: case label does not reduce to an integer constant
+   case "+":
+   ^
+src/calc_server.c:39:3: error: case label does not reduce to an integer constant
+   case "-":
+   ^
+src/calc_server.c:49:3: error: case label does not reduce to an integer constant
+   case "x":
+   ^
+src/calc_server.c:58:3: error: case label does not reduce to an integer constant
+   case "/":
+   ^
+src/calc_server.c:68:57: error: 'server_response_t {aka struct server_response}' has no member named 'operator'
+    sprintf(resp.errorMsg, "INVALID OPERATOR: %c\n", resp.operator);
+                                                         ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/calc_server.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/calc_server.o' failed
+15:37:46 **** Clean-only build of configuration x86_64-debug for project calc_client ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+15:37:46 **** Clean-only build of configuration x86_64-debug for project calc_server ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+15:37:48 **** Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_server.d,-MT,build/x86_64-debug/src/calc_server.o -o build/x86_64-debug/src/calc_server.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_server.c
+src/calc_server.c: In function 'main':
+src/calc_server.c:30:3: error: stray '`' in program
+   case `+`:
+   ^
+src/calc_server.c:30:3: error: stray '`' in program
+src/calc_server.c:30:11: error: expected expression before ':' token
+   case `+`:
+           ^
+src/calc_server.c:39:3: error: case label does not reduce to an integer constant
+   case "-":
+   ^
+src/calc_server.c:49:3: error: case label does not reduce to an integer constant
+   case "x":
+   ^
+src/calc_server.c:58:3: error: case label does not reduce to an integer constant
+   case "/":
+   ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/calc_server.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/calc_server.o' failed
+15:38:52 **** Incremental Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_server.d,-MT,build/x86_64-debug/src/calc_server.o -o build/x86_64-debug/src/calc_server.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_server.c
+src/calc_server.c: In function 'main':
+src/calc_server.c:39:3: error: case label does not reduce to an integer constant
+   case "-":
+   ^
+src/calc_server.c:49:3: error: case label does not reduce to an integer constant
+   case "x":
+   ^
+src/calc_server.c:58:3: error: case label does not reduce to an integer constant
+   case "/":
+   ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/calc_server.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/calc_server.o' failed
+15:39:19 **** Clean-only build of configuration x86_64-debug for project calc_client ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+15:39:19 **** Clean-only build of configuration x86_64-debug for project calc_server ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+15:39:21 **** Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_server.d,-MT,build/x86_64-debug/src/calc_server.o -o build/x86_64-debug/src/calc_server.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_server.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_server   build/x86_64-debug/src/calc_server.o  
+15:39:33 **** Incremental Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+15:39:55 **** Clean-only build of configuration x86_64-debug for project calc_client ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+15:39:55 **** Clean-only build of configuration x86_64-debug for project calc_server ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+15:39:57 **** Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_server.d,-MT,build/x86_64-debug/src/calc_server.o -o build/x86_64-debug/src/calc_server.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_server.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_server   build/x86_64-debug/src/calc_server.o  
+15:39:59 **** Incremental Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+15:48:52 **** Incremental Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+15:49:29 **** Build of configuration x86_64-debug for project calc_client ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_client.d,-MT,build/x86_64-debug/src/calc_client.o -o build/x86_64-debug/src/calc_client.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_client.c
+src/calc_client.c: In function 'main':
+src/calc_client.c:20:11: warning: passing argument 1 of 'fprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   fprintf("Expected result: usage message of calc_client");
+           ^
+In file included from src/calc_client.c:1:0:
+C:/Users/Patrick/qnx700/target/qnx7/usr/include/stdio.h:162:12: note: expected 'FILE * {aka struct _Filet *}' but argument is of type 'char *'
+ extern int fprintf(FILE *__fp, const char *__format, ...);
+            ^
+src/calc_client.c:20:3: error: too few arguments to function 'fprintf'
+   fprintf("Expected result: usage message of calc_client");
+   ^
+In file included from src/calc_client.c:1:0:
+C:/Users/Patrick/qnx700/target/qnx7/usr/include/stdio.h:162:12: note: declared here
+ extern int fprintf(FILE *__fp, const char *__format, ...);
+            ^
+src/calc_client.c:30:53: error: '_NTP_SIDE_CHANNEL' undeclared (first use in this function)
+  coid = ConnectAttach(ND_LOCAL_NODE, server_pid, 1, _NTP_SIDE_CHANNEL, 0);
+                                                     ^
+src/calc_client.c:30:53: note: each undeclared identifier is reported only once for each function it appears in
+src/calc_client.c:44:43: error: request for member 'resp' in something not a structure or union
+   fprintf(stderr, "Server returned \"%s\"".resp);
+                                           ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/calc_client.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/calc_client.o' failed
+15:50:02 **** Clean-only build of configuration x86_64-debug for project calc_client ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+15:50:03 **** Clean-only build of configuration x86_64-debug for project calc_server ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+rm: cannot remove 'build/x86_64-debug/calc_server': Device or resource busy
+make: *** [clean] Error 1
+Makefile:66: recipe for target 'clean' failed
+15:50:10 **** Build of configuration x86_64-debug for project calc_client ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_client.d,-MT,build/x86_64-debug/src/calc_client.o -o build/x86_64-debug/src/calc_client.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_client.c
+src/calc_client.c: In function 'main':
+src/calc_client.c:20:11: warning: passing argument 1 of 'fprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   fprintf("Expected result: usage message of calc_client");
+           ^
+In file included from src/calc_client.c:1:0:
+C:/Users/Patrick/qnx700/target/qnx7/usr/include/stdio.h:162:12: note: expected 'FILE * {aka struct _Filet *}' but argument is of type 'char *'
+ extern int fprintf(FILE *__fp, const char *__format, ...);
+            ^
+src/calc_client.c:20:3: error: too few arguments to function 'fprintf'
+   fprintf("Expected result: usage message of calc_client");
+   ^
+In file included from src/calc_client.c:1:0:
+C:/Users/Patrick/qnx700/target/qnx7/usr/include/stdio.h:162:12: note: declared here
+ extern int fprintf(FILE *__fp, const char *__format, ...);
+            ^
+src/calc_client.c:30:53: error: '_NTP_SIDE_CHANNEL' undeclared (first use in this function)
+  coid = ConnectAttach(ND_LOCAL_NODE, server_pid, 1, _NTP_SIDE_CHANNEL, 0);
+                                                     ^
+src/calc_client.c:30:53: note: each undeclared identifier is reported only once for each function it appears in
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/calc_client.o' failed
+make: *** [build/x86_64-debug/src/calc_client.o] Error 1
+15:51:03 **** Incremental Build of configuration x86_64-debug for project calc_client ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_client.d,-MT,build/x86_64-debug/src/calc_client.o -o build/x86_64-debug/src/calc_client.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_client.c
+src/calc_client.c: In function 'main':
+src/calc_client.c:30:53: error: '_NTP_SIDE_CHANNEL' undeclared (first use in this function)
+  coid = ConnectAttach(ND_LOCAL_NODE, server_pid, 1, _NTP_SIDE_CHANNEL, 0);
+                                                     ^
+src/calc_client.c:30:53: note: each undeclared identifier is reported only once for each function it appears in
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/calc_client.o' failed
+make: *** [build/x86_64-debug/src/calc_client.o] Error 1
+15:51:11 **** Clean-only build of configuration x86_64-debug for project calc_client ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+15:51:11 **** Clean-only build of configuration x86_64-debug for project calc_server ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+15:51:14 **** Build of configuration x86_64-debug for project calc_client ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_client.d,-MT,build/x86_64-debug/src/calc_client.o -o build/x86_64-debug/src/calc_client.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_client.c
+src/calc_client.c: In function 'main':
+src/calc_client.c:30:53: error: '_NTP_SIDE_CHANNEL' undeclared (first use in this function)
+  coid = ConnectAttach(ND_LOCAL_NODE, server_pid, 1, _NTP_SIDE_CHANNEL, 0);
+                                                     ^
+src/calc_client.c:30:53: note: each undeclared identifier is reported only once for each function it appears in
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/calc_client.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/calc_client.o' failed
+15:52:57 **** Incremental Build of configuration x86_64-debug for project calc_client ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_client.d,-MT,build/x86_64-debug/src/calc_client.o -o build/x86_64-debug/src/calc_client.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_client.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_client   build/x86_64-debug/src/calc_client.o  
+15:53:06 **** Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_server.d,-MT,build/x86_64-debug/src/calc_server.o -o build/x86_64-debug/src/calc_server.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_server.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_server   build/x86_64-debug/src/calc_server.o  
+15:54:50 **** Incremental Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+16:01:10 **** Incremental Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_server.d,-MT,build/x86_64-debug/src/calc_server.o -o build/x86_64-debug/src/calc_server.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_server.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_server   build/x86_64-debug/src/calc_server.o  
+16:01:16 **** Incremental Build of configuration x86_64-debug for project calc_client ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_client.d,-MT,build/x86_64-debug/src/calc_client.o -o build/x86_64-debug/src/calc_client.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_client.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_client   build/x86_64-debug/src/calc_client.o  
+16:07:22 **** Incremental Build of configuration x86_64-debug for project calc_client ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_client.d,-MT,build/x86_64-debug/src/calc_client.o -o build/x86_64-debug/src/calc_client.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_client.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_client   build/x86_64-debug/src/calc_client.o  
+16:07:29 **** Clean-only build of configuration x86_64-debug for project calc_client ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+16:07:29 **** Clean-only build of configuration x86_64-debug for project calc_server ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+16:07:32 **** Build of configuration x86_64-debug for project calc_client ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_client.d,-MT,build/x86_64-debug/src/calc_client.o -o build/x86_64-debug/src/calc_client.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_client.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_client   build/x86_64-debug/src/calc_client.o  
+16:07:37 **** Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_server.d,-MT,build/x86_64-debug/src/calc_server.o -o build/x86_64-debug/src/calc_server.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_server.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_server   build/x86_64-debug/src/calc_server.o  
+16:11:16 **** Clean-only build of configuration x86_64-debug for project calc_client ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+16:11:16 **** Clean-only build of configuration x86_64-debug for project calc_server ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+16:11:17 **** Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_server.d,-MT,build/x86_64-debug/src/calc_server.o -o build/x86_64-debug/src/calc_server.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_server.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_server   build/x86_64-debug/src/calc_server.o  
+16:11:20 **** Build of configuration x86_64-debug for project calc_client ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_client.d,-MT,build/x86_64-debug/src/calc_client.o -o build/x86_64-debug/src/calc_client.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_client.c
+src/calc_client.c: In function 'main':
+src/calc_client.c:27:16: warning: assignment makes integer from pointer without a cast [-Wint-conversion]
+  send.operator = argv[3];
+                ^
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_client   build/x86_64-debug/src/calc_client.o  
+16:11:41 **** Incremental Build of configuration x86_64-debug for project calc_client ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_client.d,-MT,build/x86_64-debug/src/calc_client.o -o build/x86_64-debug/src/calc_client.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_client.c
+src/calc_client.c: In function 'main':
+src/calc_client.c:27:18: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+  send.operator = (char) argv[3];
+                  ^
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_client   build/x86_64-debug/src/calc_client.o  
+16:12:07 **** Clean-only build of configuration x86_64-debug for project calc_client ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+16:12:07 **** Clean-only build of configuration x86_64-debug for project calc_server ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+16:12:09 **** Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_server.d,-MT,build/x86_64-debug/src/calc_server.o -o build/x86_64-debug/src/calc_server.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_server.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_server   build/x86_64-debug/src/calc_server.o  
+16:12:13 **** Build of configuration x86_64-debug for project calc_client ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_client.d,-MT,build/x86_64-debug/src/calc_client.o -o build/x86_64-debug/src/calc_client.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_client.c
+src/calc_client.c: In function 'main':
+src/calc_client.c:27:16: warning: assignment makes integer from pointer without a cast [-Wint-conversion]
+  send.operator = argv[3];
+                ^
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_client   build/x86_64-debug/src/calc_client.o  
+16:16:48 **** Clean-only build of configuration x86_64-debug for project calc_client ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+16:16:48 **** Clean-only build of configuration x86_64-debug for project calc_server ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+16:16:51 **** Build of configuration x86_64-debug for project calc_client ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_client.d,-MT,build/x86_64-debug/src/calc_client.o -o build/x86_64-debug/src/calc_client.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_client.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_client   build/x86_64-debug/src/calc_client.o  
+16:16:57 **** Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_server.d,-MT,build/x86_64-debug/src/calc_server.o -o build/x86_64-debug/src/calc_server.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_server.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_server   build/x86_64-debug/src/calc_server.o  
+11:19:29 **** Clean-only build of configuration x86_64-debug for project calc_server ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+11:20:06 **** Build of configuration x86_64-debug for project calc_server ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_server.d,-MT,build/x86_64-debug/src/calc_server.o -o build/x86_64-debug/src/calc_server.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_server.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_server   build/x86_64-debug/src/calc_server.o  
+11:45:16 **** Build of configuration x86_64-debug for project calc_client ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_client.d,-MT,build/x86_64-debug/src/calc_client.o -o build/x86_64-debug/src/calc_client.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_client.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_client   build/x86_64-debug/src/calc_client.o  

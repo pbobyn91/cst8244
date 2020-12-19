@@ -1,0 +1,6 @@
+18:14:16 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+
+18:14:16 Build Finished (took 127ms)
+

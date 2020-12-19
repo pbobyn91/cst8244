@@ -1,0 +1,12 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "../../calc_server/src/calc_message.h"
+
+int main(int argc, char* argv[]) {
+
+	if (argc != 5){
+		fprintf(stderr, "ERROR: Need all required arguments.\n");
+		exit(EXIT_FAILURE_;)
+	}
+}

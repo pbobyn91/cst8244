@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <process.h>
+#include <string.h>
+#include <errno.h>
+#include <unistd.h>
+#include <sys/neutrino.h>
+
+#include "calc_message.h"
+
+int main(void) {
+
+	client_send_t send;
+	server_response_t resp;
+	int chid;
+
+	chid = ChannelCreate(0);
+	if (chid == -1){
+		fprintf(stderr, "Could not create channel\n");
+		exit(EXIT_FAILURE);
+	}
+
+
+}

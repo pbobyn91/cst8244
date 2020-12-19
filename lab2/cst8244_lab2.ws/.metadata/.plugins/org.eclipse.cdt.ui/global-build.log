@@ -1,0 +1,78 @@
+11:27:57 **** Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/cst8244_lab2.d,-MT,build/x86_64-debug/src/cst8244_lab2.o -o build/x86_64-debug/src/cst8244_lab2.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/cst8244_lab2.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/cst8244_lab2   build/x86_64-debug/src/cst8244_lab2.o  
+11:43:04 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+11:45:32 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+11:55:07 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+11:55:52 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+11:55:55 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+12:08:35 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/cst8244_lab2.d,-MT,build/x86_64-debug/src/cst8244_lab2.o -o build/x86_64-debug/src/cst8244_lab2.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/cst8244_lab2.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/cst8244_lab2   build/x86_64-debug/src/cst8244_lab2.o  
+12:08:39 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+12:09:23 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/cst8244_lab2.d,-MT,build/x86_64-debug/src/cst8244_lab2.o -o build/x86_64-debug/src/cst8244_lab2.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/cst8244_lab2.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/cst8244_lab2   build/x86_64-debug/src/cst8244_lab2.o  
+12:09:26 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+12:10:53 **** Clean-only build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+12:10:58 **** Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/cst8244_lab2.d,-MT,build/x86_64-debug/src/cst8244_lab2.o -o build/x86_64-debug/src/cst8244_lab2.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/cst8244_lab2.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/cst8244_lab2   build/x86_64-debug/src/cst8244_lab2.o  
+12:11:01 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+12:11:30 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+17:32:34 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+17:33:26 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+17:52:22 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+18:02:10 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+18:07:43 **** Clean-only build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+18:13:27 **** Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/cst8244_lab2.d,-MT,build/x86_64-debug/src/cst8244_lab2.o -o build/x86_64-debug/src/cst8244_lab2.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/cst8244_lab2.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/cst8244_lab2   build/x86_64-debug/src/cst8244_lab2.o  
+18:13:35 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+18:14:05 **** Clean-only build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+18:14:14 **** Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/cst8244_lab2.d,-MT,build/x86_64-debug/src/cst8244_lab2.o -o build/x86_64-debug/src/cst8244_lab2.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/cst8244_lab2.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/cst8244_lab2   build/x86_64-debug/src/cst8244_lab2.o  
+18:14:16 **** Incremental Build of configuration x86_64-debug for project cst8244_lab2 ****
+make -j8 all 
+make: Nothing to be done for 'all'.

@@ -1,0 +1,894 @@
+11:43:32 **** Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+11:43:47 **** Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myDevice.d,-MT,build/x86_64-debug/src/myDevice.o -o build/x86_64-debug/src/myDevice.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myDevice.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myDevice   build/x86_64-debug/src/myDevice.o  
+11:51:10 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myDevice.d,-MT,build/x86_64-debug/src/myDevice.o -o build/x86_64-debug/src/myDevice.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myDevice.c
+src/myDevice.c:18:42: error: unknown type name 'RESMGR_OCV_T'
+ int io_read(resmgr_context_t, io_read_t, RESMGR_OCV_T);
+                                          ^
+src/myDevice.c:58:5: error: conflicting types for 'io_write'
+ int io_write(resmgr_context_t *ctp, io_write_t *msg, RESMGR_OCB_T *ocb)
+     ^
+src/myDevice.c:19:5: note: previous declaration of 'io_write' was here
+ int io_write(resmgr_context_t, io_write_t, RESMGR_OCB_T);
+     ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myDevice.o' failed
+make: *** [build/x86_64-debug/src/myDevice.o] Error 1
+11:51:50 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myDevice.d,-MT,build/x86_64-debug/src/myDevice.o -o build/x86_64-debug/src/myDevice.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myDevice.c
+src/myDevice.c:27:5: error: conflicting types for 'io_read'
+ int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb)
+     ^
+src/myDevice.c:18:5: note: previous declaration of 'io_read' was here
+ int io_read(resmgr_context_t, io_read_t, RESMGR_OCB_T);
+     ^
+src/myDevice.c:58:5: error: conflicting types for 'io_write'
+ int io_write(resmgr_context_t *ctp, io_write_t *msg, RESMGR_OCB_T *ocb)
+     ^
+src/myDevice.c:19:5: note: previous declaration of 'io_write' was here
+ int io_write(resmgr_context_t, io_write_t, RESMGR_OCB_T);
+     ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/myDevice.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myDevice.o' failed
+11:53:14 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myDevice.d,-MT,build/x86_64-debug/src/myDevice.o -o build/x86_64-debug/src/myDevice.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myDevice.c
+src/myDevice.c: In function 'main':
+src/myDevice.c:32:67: error: 'argv' undeclared (first use in this function)
+                    "%s:  Unable to allocate dispatch context.\n", argv [0]);
+                                                                   ^
+src/myDevice.c:32:67: note: each undeclared identifier is reported only once for each function it appears in
+src/myDevice.c:36:24: error: 'io_open' undeclared (first use in this function)
+   connect_funcs.open = io_open;
+                        ^
+src/myDevice.c:37:17: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
+   io_funcs.read = io_read;
+                 ^
+src/myDevice.c:38:18: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
+   io_funcs.write = io_write;
+                  ^
+src/myDevice.c: At top level:
+src/myDevice.c:58:5: error: conflicting types for 'io_read'
+ int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb)
+     ^
+src/myDevice.c:18:5: note: previous declaration of 'io_read' was here
+ int io_read(resmgr_context_t, io_read_t, RESMGR_OCB_T);
+     ^
+src/myDevice.c:89:5: error: conflicting types for 'io_write'
+ int io_write(resmgr_context_t *ctp, io_write_t *msg, RESMGR_OCB_T *ocb)
+     ^
+src/myDevice.c:19:5: note: previous declaration of 'io_write' was here
+ int io_write(resmgr_context_t, io_write_t, RESMGR_OCB_T);
+     ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/myDevice.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myDevice.o' failed
+11:53:55 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myDevice.d,-MT,build/x86_64-debug/src/myDevice.o -o build/x86_64-debug/src/myDevice.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myDevice.c
+src/myDevice.c: In function 'main':
+src/myDevice.c:35:24: error: 'io_open' undeclared (first use in this function)
+   connect_funcs.open = io_open;
+                        ^
+src/myDevice.c:35:24: note: each undeclared identifier is reported only once for each function it appears in
+src/myDevice.c:36:17: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
+   io_funcs.read = io_read;
+                 ^
+src/myDevice.c:37:18: warning: assignment from incompatible pointer type [-Wincompatible-pointer-types]
+   io_funcs.write = io_write;
+                  ^
+src/myDevice.c: At top level:
+src/myDevice.c:57:5: error: conflicting types for 'io_read'
+ int io_read(resmgr_context_t *ctp, io_read_t *msg, RESMGR_OCB_T *ocb)
+     ^
+src/myDevice.c:18:5: note: previous declaration of 'io_read' was here
+ int io_read(resmgr_context_t, io_read_t, RESMGR_OCB_T);
+     ^
+src/myDevice.c:88:5: error: conflicting types for 'io_write'
+ int io_write(resmgr_context_t *ctp, io_write_t *msg, RESMGR_OCB_T *ocb)
+     ^
+src/myDevice.c:19:5: note: previous declaration of 'io_write' was here
+ int io_write(resmgr_context_t, io_write_t, RESMGR_OCB_T);
+     ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myDevice.o' failed
+make: *** [build/x86_64-debug/src/myDevice.o] Error 1
+12:00:06 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myDevice.d,-MT,build/x86_64-debug/src/myDevice.o -o build/x86_64-debug/src/myDevice.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myDevice.c
+src/myDevice.c: In function 'main':
+src/myDevice.c:99:24: error: 'io_open' undeclared (first use in this function)
+   connect_funcs.open = io_open;
+                        ^
+src/myDevice.c:99:24: note: each undeclared identifier is reported only once for each function it appears in
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/myDevice.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myDevice.o' failed
+12:01:19 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myDevice.d,-MT,build/x86_64-debug/src/myDevice.o -o build/x86_64-debug/src/myDevice.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myDevice.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myDevice   build/x86_64-debug/src/myDevice.o  
+12:42:36 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myDevice.d,-MT,build/x86_64-debug/src/myDevice.o -o build/x86_64-debug/src/myDevice.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myDevice.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myDevice   build/x86_64-debug/src/myDevice.o  
+12:42:38 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:23:20 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:25:18: error: 'errorMessage' undeclared (first use in this function)
+   printf("%s\n", errorMessage[DP_ERR_CHANNEL_CREATE]);
+                  ^
+src/myController.c:25:18: note: each undeclared identifier is reported only once for each function it appears in
+src/myController.c:25:31: error: 'DP_ERR_CHANNEL_CREATE' undeclared (first use in this function)
+   printf("%s\n", errorMessage[DP_ERR_CHANNEL_CREATE]);
+                               ^
+src/myController.c:29:18: error: 'MY_DEVICE_PATH' undeclared (first use in this function)
+  if ((fp = fopen(MY_DEVICE_PATH, "r")) == NULL){
+                  ^
+src/myController.c:36:4: error: request for member 'close' in something not a structure or union
+  fp.close();
+    ^
+src/myController.c:37:6: error: 'msg' undeclared (first use in this function)
+  if (msg.strcmp("status")){
+      ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+13:26:11 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:33:30: error: expected expression before 'my_message_t'
+  fscanf(fp, "%s %s", status, my_message_t->msg);
+                              ^
+src/myController.c:35:4: error: request for member 'close' in something not a structure or union
+  fp.close();
+    ^
+src/myController.c:36:6: error: expected expression before 'my_message_t'
+  if (my_message_t->msg.strcmp("status")){
+      ^
+src/myController.c:37:16: error: 'message' undeclared (first use in this function)
+   printf("%s", message);
+                ^
+src/myController.c:37:16: note: each undeclared identifier is reported only once for each function it appears in
+src/myController.c:38:13: error: expected expression before 'my_message_t'
+  } else if (my_message_t->msg.strcmp("closed")){
+             ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+13:26:49 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:34:31: error: invalid type argument of '->' (have 'my_message_t {aka union <anonymous>}')
+  fscanf(fp, "%s %s", status, m->msg);
+                               ^
+src/myController.c:36:4: error: request for member 'close' in something not a structure or union
+  fp.close();
+    ^
+src/myController.c:37:7: error: invalid type argument of '->' (have 'my_message_t {aka union <anonymous>}')
+  if (m->msg.strcmp("status")){
+       ^
+src/myController.c:38:16: error: 'message' undeclared (first use in this function)
+   printf("%s", message);
+                ^
+src/myController.c:38:16: note: each undeclared identifier is reported only once for each function it appears in
+src/myController.c:39:14: error: invalid type argument of '->' (have 'my_message_t {aka union <anonymous>}')
+  } else if (m->msg.strcmp("closed")){
+              ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+13:27:24 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:36:4: error: request for member 'close' in something not a structure or union
+  fp.close();
+    ^
+src/myController.c:37:12: error: request for member 'strcmp' in something not a structure or union
+  if (m->msg.strcmp("status")){
+            ^
+src/myController.c:38:16: error: 'message' undeclared (first use in this function)
+   printf("%s", message);
+                ^
+src/myController.c:38:16: note: each undeclared identifier is reported only once for each function it appears in
+src/myController.c:39:19: error: request for member 'strcmp' in something not a structure or union
+  } else if (m->msg.strcmp("closed")){
+                   ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+13:27:50 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:36:8: warning: passing argument 1 of 'close' makes integer from pointer without a cast [-Wint-conversion]
+  close(fp);
+        ^
+In file included from C:/Users/Patrick/qnx700/target/qnx7/usr/include/fcntl.h:27:0,
+                 from C:/Users/Patrick/qnx700/target/qnx7/usr/include/sys/dispatch.h:22,
+                 from src/myController.c:3:
+C:/Users/Patrick/qnx700/target/qnx7/usr/include/unistd.h:392:12: note: expected 'int' but argument is of type 'FILE * {aka struct _Filet *}'
+ extern int close(int __fildes);
+            ^
+src/myController.c:37:12: error: request for member 'strcmp' in something not a structure or union
+  if (m->msg.strcmp("status")){
+            ^
+src/myController.c:38:16: error: 'message' undeclared (first use in this function)
+   printf("%s", message);
+                ^
+src/myController.c:38:16: note: each undeclared identifier is reported only once for each function it appears in
+src/myController.c:39:19: error: request for member 'strcmp' in something not a structure or union
+  } else if (m->msg.strcmp("closed")){
+                   ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+13:28:53 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:36:12: error: request for member 'strcmp' in something not a structure or union
+  if (m->msg.strcmp("status")){
+            ^
+src/myController.c:37:16: error: 'message' undeclared (first use in this function)
+   printf("%s", message);
+                ^
+src/myController.c:37:16: note: each undeclared identifier is reported only once for each function it appears in
+src/myController.c:38:19: error: request for member 'strcmp' in something not a structure or union
+  } else if (m->msg.strcmp("closed")){
+                   ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+13:29:20 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:36:14: error: request for member 'strcmp' in something not a structure or union
+  if ((m->msg).strcmp("status")){
+              ^
+src/myController.c:37:16: error: 'message' undeclared (first use in this function)
+   printf("%s", message);
+                ^
+src/myController.c:37:16: note: each undeclared identifier is reported only once for each function it appears in
+src/myController.c:38:21: error: request for member 'strcmp' in something not a structure or union
+  } else if ((m->msg).strcmp("closed")){
+                     ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+13:32:47 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myDevice.d,-MT,build/x86_64-debug/src/myDevice.o -o build/x86_64-debug/src/myDevice.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myDevice.c
+src/myDevice.c: In function 'io_read':
+src/myDevice.c:27:9: warning: dereferencing 'void *' pointer
+  if (ocb->offset == nb)
+         ^
+src/myDevice.c:27:9: error: request for member 'offset' in something not a structure or union
+src/myDevice.c:40:5: warning: dereferencing 'void *' pointer
+  ocb->offset += nb;
+     ^
+src/myDevice.c:40:5: error: request for member 'offset' in something not a structure or union
+src/myDevice.c:44:6: warning: dereferencing 'void *' pointer
+   ocb->attr->flags |= IOFUNC_ATTR_ATIME;
+      ^
+src/myDevice.c:44:6: error: request for member 'attr' in something not a structure or union
+src/myDevice.c: In function 'io_write':
+src/myDevice.c:81:13: warning: dereferencing 'void *' pointer
+          ocb->attr->flags |= IOFUNC_ATTR_MTIME | IOFUNC_ATTR_CTIME;
+             ^
+src/myDevice.c:81:13: error: request for member 'attr' in something not a structure or union
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/myDevice.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myDevice.o' failed
+13:33:00 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myDevice.d,-MT,build/x86_64-debug/src/myDevice.o -o build/x86_64-debug/src/myDevice.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myDevice.c
+src/myDevice.c: In function 'io_read':
+src/myDevice.c:27:9: warning: dereferencing 'void *' pointer
+  if (ocb->offset == nb)
+         ^
+src/myDevice.c:27:9: error: request for member 'offset' in something not a structure or union
+src/myDevice.c:40:5: warning: dereferencing 'void *' pointer
+  ocb->offset += nb;
+     ^
+src/myDevice.c:40:5: error: request for member 'offset' in something not a structure or union
+src/myDevice.c:44:6: warning: dereferencing 'void *' pointer
+   ocb->attr->flags |= IOFUNC_ATTR_ATIME;
+      ^
+src/myDevice.c:44:6: error: request for member 'attr' in something not a structure or union
+src/myDevice.c: In function 'io_write':
+src/myDevice.c:81:13: warning: dereferencing 'void *' pointer
+          ocb->attr->flags |= IOFUNC_ATTR_MTIME | IOFUNC_ATTR_CTIME;
+             ^
+src/myDevice.c:81:13: error: request for member 'attr' in something not a structure or union
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/myDevice.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myDevice.o' failed
+13:33:10 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:36:12: error: request for member 'strcmp' in something not a structure or union
+  if (m->msg.strcmp("status")){
+            ^
+src/myController.c:37:16: error: 'message' undeclared (first use in this function)
+   printf("%s", message);
+                ^
+src/myController.c:37:16: note: each undeclared identifier is reported only once for each function it appears in
+src/myController.c:38:19: error: request for member 'strcmp' in something not a structure or union
+  } else if (m->msg.strcmp("closed")){
+                   ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+13:34:21 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:36:14: error: request for member 'msg' in something not a structure or union
+  if (strcmp(m.msg, "status" == 1)){
+              ^
+src/myController.c:36:29: warning: comparison between pointer and integer
+  if (strcmp(m.msg, "status" == 1)){
+                             ^
+src/myController.c:36:29: warning: comparison with string literal results in unspecified behavior [-Waddress]
+src/myController.c:36:20: warning: passing argument 2 of 'strcmp' makes pointer from integer without a cast [-Wint-conversion]
+  if (strcmp(m.msg, "status" == 1)){
+                    ^
+In file included from src/myController.c:5:0:
+C:/Users/Patrick/qnx700/target/qnx7/usr/include/string.h:74:12: note: expected 'const char *' but argument is of type 'int'
+ extern int strcmp(const char *__s1, const char *__s2);
+            ^
+src/myController.c:37:16: error: 'message' undeclared (first use in this function)
+   printf("%s", message);
+                ^
+src/myController.c:37:16: note: each undeclared identifier is reported only once for each function it appears in
+src/myController.c:38:21: error: request for member 'msg' in something not a structure or union
+  } else if (strcmp(m.msg, "closed") ==1 ){
+                     ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+13:34:59 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:36:30: warning: comparison between pointer and integer
+  if (strcmp(status, "status" == 1)){
+                              ^
+src/myController.c:36:30: warning: comparison with string literal results in unspecified behavior [-Waddress]
+src/myController.c:36:21: warning: passing argument 2 of 'strcmp' makes pointer from integer without a cast [-Wint-conversion]
+  if (strcmp(status, "status" == 1)){
+                     ^
+In file included from src/myController.c:5:0:
+C:/Users/Patrick/qnx700/target/qnx7/usr/include/string.h:74:12: note: expected 'const char *' but argument is of type 'int'
+ extern int strcmp(const char *__s1, const char *__s2);
+            ^
+src/myController.c:34:30: warning: 'm' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  fscanf(fp, "%s %s", status, m->msg);
+                              ^
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+13:35:34 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:36:36: error: expected statement before ')' token
+  if (strcmp(status, "status") == 1)){
+                                    ^
+src/myController.c:38:4: error: 'else' without a previous 'if'
+  } else if (strcmp(status, "closed") == 1 ){
+    ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+13:35:50 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:34:30: warning: 'm' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  fscanf(fp, "%s %s", status, m->msg);
+                              ^
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+13:36:26 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:34:30: warning: 'm' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  fscanf(fp, "%s %s", status, *m->msg);
+                              ^
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+13:36:34 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:34:30: error: 'msg' undeclared (first use in this function)
+  fscanf(fp, "%s %s", status, msg);
+                              ^
+src/myController.c:34:30: note: each undeclared identifier is reported only once for each function it appears in
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+13:37:08 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:36:9: error: assignment to expression with array type
+  m->msg = message;
+         ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+13:37:20 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:36:9: error: assignment to expression with array type
+  m->msg = *message;
+         ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+13:37:47 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:34:31: error: request for member 'msg' in something not a structure or union
+  fscanf(fp, "%s %s", status, m.msg);
+                               ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+13:39:00 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myDevice.d,-MT,build/x86_64-debug/src/myDevice.o -o build/x86_64-debug/src/myDevice.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myDevice.c
+src/myDevice.c: In function 'io_read':
+src/myDevice.c:27:9: warning: dereferencing 'void *' pointer
+  if (ocb->offset == nb)
+         ^
+src/myDevice.c:27:9: error: request for member 'offset' in something not a structure or union
+src/myDevice.c:40:5: warning: dereferencing 'void *' pointer
+  ocb->offset += nb;
+     ^
+src/myDevice.c:40:5: error: request for member 'offset' in something not a structure or union
+src/myDevice.c:44:6: warning: dereferencing 'void *' pointer
+   ocb->attr->flags |= IOFUNC_ATTR_ATIME;
+      ^
+src/myDevice.c:44:6: error: request for member 'attr' in something not a structure or union
+src/myDevice.c: In function 'io_write':
+src/myDevice.c:81:13: warning: dereferencing 'void *' pointer
+          ocb->attr->flags |= IOFUNC_ATTR_MTIME | IOFUNC_ATTR_CTIME;
+             ^
+src/myDevice.c:81:13: error: request for member 'attr' in something not a structure or union
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/myDevice.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myDevice.o' failed
+13:39:26 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myDevice.d,-MT,build/x86_64-debug/src/myDevice.o -o build/x86_64-debug/src/myDevice.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myDevice.c
+src/myDevice.c: In function 'io_read':
+src/myDevice.c:27:9: warning: dereferencing 'void *' pointer
+  if (ocb->offset == nb)
+         ^
+src/myDevice.c:27:9: error: request for member 'offset' in something not a structure or union
+src/myDevice.c:40:5: warning: dereferencing 'void *' pointer
+  ocb->offset += nb;
+     ^
+src/myDevice.c:40:5: error: request for member 'offset' in something not a structure or union
+src/myDevice.c:44:6: warning: dereferencing 'void *' pointer
+   ocb->attr->flags |= IOFUNC_ATTR_ATIME;
+      ^
+src/myDevice.c:44:6: error: request for member 'attr' in something not a structure or union
+src/myDevice.c: In function 'io_write':
+src/myDevice.c:81:13: warning: dereferencing 'void *' pointer
+          ocb->attr->flags |= IOFUNC_ATTR_MTIME | IOFUNC_ATTR_CTIME;
+             ^
+src/myDevice.c:81:13: error: request for member 'attr' in something not a structure or union
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myDevice.o' failed
+make: *** [build/x86_64-debug/src/myDevice.o] Error 1
+13:39:43 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myDevice.d,-MT,build/x86_64-debug/src/myDevice.o -o build/x86_64-debug/src/myDevice.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myDevice.c
+src/myDevice.c: In function 'io_read':
+src/myDevice.c:27:9: warning: dereferencing 'void *' pointer
+  if (ocb->offset == nb)
+         ^
+src/myDevice.c:27:9: error: request for member 'offset' in something not a structure or union
+src/myDevice.c:40:5: warning: dereferencing 'void *' pointer
+  ocb->offset += nb;
+     ^
+src/myDevice.c:40:5: error: request for member 'offset' in something not a structure or union
+src/myDevice.c:44:6: warning: dereferencing 'void *' pointer
+   ocb->attr->flags |= IOFUNC_ATTR_ATIME;
+      ^
+src/myDevice.c:44:6: error: request for member 'attr' in something not a structure or union
+src/myDevice.c: In function 'io_write':
+src/myDevice.c:81:13: warning: dereferencing 'void *' pointer
+          ocb->attr->flags |= IOFUNC_ATTR_MTIME | IOFUNC_ATTR_CTIME;
+             ^
+src/myDevice.c:81:13: error: request for member 'attr' in something not a structure or union
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/myDevice.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myDevice.o' failed
+13:40:00 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myDevice.d,-MT,build/x86_64-debug/src/myDevice.o -o build/x86_64-debug/src/myDevice.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myDevice.c
+src/myDevice.c: In function 'io_read':
+src/myDevice.c:27:9: warning: dereferencing 'void *' pointer
+  if (ocb->offset == nb)
+         ^
+src/myDevice.c:27:9: error: request for member 'offset' in something not a structure or union
+src/myDevice.c:40:5: warning: dereferencing 'void *' pointer
+  ocb->offset += nb;
+     ^
+src/myDevice.c:40:5: error: request for member 'offset' in something not a structure or union
+src/myDevice.c:44:6: warning: dereferencing 'void *' pointer
+   ocb->attr->flags |= IOFUNC_ATTR_ATIME;
+      ^
+src/myDevice.c:44:6: error: request for member 'attr' in something not a structure or union
+src/myDevice.c: In function 'io_write':
+src/myDevice.c:81:13: warning: dereferencing 'void *' pointer
+          ocb->attr->flags |= IOFUNC_ATTR_MTIME | IOFUNC_ATTR_CTIME;
+             ^
+src/myDevice.c:81:13: error: request for member 'attr' in something not a structure or union
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myDevice.o' failed
+make: *** [build/x86_64-debug/src/myDevice.o] Error 1
+13:40:20 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myDevice.d,-MT,build/x86_64-debug/src/myDevice.o -o build/x86_64-debug/src/myDevice.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myDevice.c
+src/myDevice.c: In function 'io_read':
+src/myDevice.c:27:9: warning: dereferencing 'void *' pointer
+  if (ocb->offset == nb)
+         ^
+src/myDevice.c:27:9: error: request for member 'offset' in something not a structure or union
+src/myDevice.c:40:5: warning: dereferencing 'void *' pointer
+  ocb->offset += nb;
+     ^
+src/myDevice.c:40:5: error: request for member 'offset' in something not a structure or union
+src/myDevice.c:44:6: warning: dereferencing 'void *' pointer
+   ocb->attr->flags |= IOFUNC_ATTR_ATIME;
+      ^
+src/myDevice.c:44:6: error: request for member 'attr' in something not a structure or union
+src/myDevice.c: In function 'io_write':
+src/myDevice.c:81:13: warning: dereferencing 'void *' pointer
+          ocb->attr->flags |= IOFUNC_ATTR_MTIME | IOFUNC_ATTR_CTIME;
+             ^
+src/myDevice.c:81:13: error: request for member 'attr' in something not a structure or union
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myDevice.o' failed
+make: *** [build/x86_64-debug/src/myDevice.o] Error 1
+13:40:37 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myDevice.d,-MT,build/x86_64-debug/src/myDevice.o -o build/x86_64-debug/src/myDevice.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myDevice.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myDevice   build/x86_64-debug/src/myDevice.o  
+13:40:42 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:40:57 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:34:30: warning: 'm' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  fscanf(fp, "%s %s", status, m->msg);
+                              ^
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+13:42:01 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:34:30: warning: 'm' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  fscanf(fp, "%s %s", status, m->msg);
+                              ^
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+13:42:44 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:22:16: warning: unused variable 'm' [-Wunused-variable]
+  my_message_t *m;
+                ^
+src/myController.c:21:7: warning: unused variable 'status' [-Wunused-variable]
+  char status[10];
+       ^
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+13:42:48 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:42:55 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:43:00 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:43:17 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:22:16: warning: unused variable 'm' [-Wunused-variable]
+  my_message_t *m;
+                ^
+src/myController.c:21:7: warning: unused variable 'status' [-Wunused-variable]
+  char status[10];
+       ^
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+13:43:19 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:44:46 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:46:04 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:22:15: warning: unused variable 'm' [-Wunused-variable]
+  my_message_t m;
+               ^
+src/myController.c:21:7: warning: unused variable 'status' [-Wunused-variable]
+  char status[10];
+       ^
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+13:46:19 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:34:31: error: invalid type argument of '->' (have 'my_message_t {aka union <anonymous>}')
+  fscanf(fp, "%s %s", status, m->msg);
+                               ^
+src/myController.c:37:19: error: invalid type argument of '->' (have 'my_message_t {aka union <anonymous>}')
+   printf("%s\n", m->msg);
+                   ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+13:46:38 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+13:46:46 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:46:50 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:46:53 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:48:56 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+13:48:59 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:49:02 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:53:00 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:53:05 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:54:37 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:54:40 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:58:18 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+13:58:22 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:58:25 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:59:11 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+13:59:16 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:00:23 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:02:48 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+14:03:49 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:04:13 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:04:20 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:04:40 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:19:24 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:47:42: error: 'm' undeclared (first use in this function)
+   rcvid = MsgReceivePulse(attach->chid, &m.msg, sizeof(m.msg), NULL);
+                                          ^
+src/myController.c:47:42: note: each undeclared identifier is reported only once for each function it appears in
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+14:19:33 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+14:22:56 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+14:23:00 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:23:03 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:24:47 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+14:25:18 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+14:25:21 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:25:24 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:28:08 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:28:12 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+14:29:34 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:29:38 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:31:06 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+14:31:09 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:31:15 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:31:28 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:31:31 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:31:40 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:32:52 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:46:47: warning: implicit declaration of function 'sizof' [-Wimplicit-function-declaration]
+   rcvid = MsgReceivePulse(attach->chid, &msg, sizof(msg), NULL);
+                                               ^
+src/myController.c:23:6: warning: variable 'rcvid' set but not used [-Wunused-but-set-variable]
+  int rcvid;
+      ^
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+build/x86_64-debug/src/myController.o: In function `main':
+C:\Users\Patrick\Desktop\Real-Time\lab7\myController/src/myController.c:46: undefined reference to `sizof'
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/bin/x86_64-pc-nto-qnx7.0.0-ld caught signal 1
+make: *** [build/x86_64-debug/myController] Error 1
+Makefile:60: recipe for target 'build/x86_64-debug/myController' failed
+14:33:05 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:23:6: warning: variable 'rcvid' set but not used [-Wunused-but-set-variable]
+  int rcvid;
+      ^
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+14:33:53 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+14:34:00 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:34:04 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:37:34 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:49:33 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+src/myController.c: In function 'main':
+src/myController.c:53:7: error: 'rcivd' undeclared (first use in this function)
+   if (rcivd == 0 && msg.pulse.code == MY_PULSE_CODE){
+       ^
+src/myController.c:53:7: note: each undeclared identifier is reported only once for each function it appears in
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/myController.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/myController.o' failed
+14:49:44 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+14:49:48 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:49:52 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:53:51 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:53:55 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+14:57:54 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+14:57:59 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+15:30:57 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+15:31:01 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+15:37:43 **** Incremental Build of configuration x86_64-debug for project myDevice ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+15:37:49 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+15:39:25 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/myController.d,-MT,build/x86_64-debug/src/myController.o -o build/x86_64-debug/src/myController.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/myController.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/myController   build/x86_64-debug/src/myController.o  
+15:39:50 **** Incremental Build of configuration x86_64-debug for project myController ****
+make -j8 all 
+make: Nothing to be done for 'all'.

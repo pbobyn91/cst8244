@@ -1,0 +1,15 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+char data[255];
+int server_coid;
+
+typedef union {
+    struct _pulse pulse;
+    char msg[255];
+} my_message_t;
+
+int main(void) {
+	puts("Hello World!!!"); /* prints Hello World!!! */
+	return EXIT_SUCCESS;
+}

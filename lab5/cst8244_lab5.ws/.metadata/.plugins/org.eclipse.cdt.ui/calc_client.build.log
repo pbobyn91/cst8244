@@ -1,0 +1,7 @@
+11:45:16 **** Build of configuration x86_64-debug for project calc_client ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/calc_client.d,-MT,build/x86_64-debug/src/calc_client.o -o build/x86_64-debug/src/calc_client.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/calc_client.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/calc_client   build/x86_64-debug/src/calc_client.o  
+
+11:45:19 Build Finished (took 3s.99ms)
+

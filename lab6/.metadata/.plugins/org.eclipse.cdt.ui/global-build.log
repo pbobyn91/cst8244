@@ -1,0 +1,222 @@
+09:31:04 **** Build of configuration x86_64-debug for project des_display ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+09:41:25 **** Build of configuration x86_64-debug for project des_controller ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+09:41:25 **** Incremental Build of configuration x86_64-debug for project des_display ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_display.d,-MT,build/x86_64-debug/src/des_display.o -o build/x86_64-debug/src/des_display.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_display.c
+src/des_display.c: In function 'main':
+src/des_display.c:30:2: error: unknown type name 'name_attach_t'
+  name_attach_t *attach;
+  ^
+src/des_display.c:35:16: warning: implicit declaration of function 'name_attach' [-Wimplicit-function-declaration]
+  if ((attach = name_attach(NULL, "display_point", 0)) == NULL) /* Create Channel */
+                ^
+src/des_display.c:35:14: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  if ((attach = name_attach(NULL, "display_point", 0)) == NULL) /* Create Channel */
+              ^
+src/des_display.c:49:33: error: request for member 'chid' in something not a structure or union
+   if ((rcvid = MsgReceive(attach->chid, &person, sizeof(person), NULL))
+                                 ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/des_display.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/des_display.o' failed
+09:41:27 **** Build of configuration x86_64-debug for project des_inputs ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+09:42:16 **** Incremental Build of configuration x86_64-debug for project des_inputs ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+09:43:06 **** Clean-only build of configuration x86_64-debug for project des_controller ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+09:43:06 **** Clean-only build of configuration x86_64-debug for project des_display ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+09:43:06 **** Clean-only build of configuration x86_64-debug for project des_inputs ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+09:43:17 **** Build of configuration x86_64-debug for project des_display ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_display.d,-MT,build/x86_64-debug/src/des_display.o -o build/x86_64-debug/src/des_display.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_display.c
+src/des_display.c: In function 'main':
+src/des_display.c:71:17: error: 'chid' undeclared (first use in this function)
+  ChannelDestroy(chid);
+                 ^
+src/des_display.c:71:17: note: each undeclared identifier is reported only once for each function it appears in
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/des_display.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/des_display.o' failed
+09:45:24 **** Incremental Build of configuration x86_64-debug for project des_display ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_display.d,-MT,build/x86_64-debug/src/des_display.o -o build/x86_64-debug/src/des_display.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_display.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/des_display   build/x86_64-debug/src/des_display.o  
+09:48:20 **** Incremental Build of configuration x86_64-debug for project des_display ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+09:48:25 **** Build of configuration x86_64-debug for project des_controller ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_controller.d,-MT,build/x86_64-debug/src/des_controller.o -o build/x86_64-debug/src/des_controller.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_controller.c
+src/des_controller.c: In function 'main':
+src/des_controller.c:63:56: error: expected ')' before '{' token
+  if((display_coid = name_open("display_open", 0) == -1){
+                                                        ^
+src/des_controller.c:104:1: error: expected expression before '}' token
+ }
+ ^
+src/des_controller.c:51:8: warning: variable 'dpid' set but not used [-Wunused-but-set-variable]
+  pid_t dpid; /* display pid */
+        ^
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/des_controller.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/des_controller.o' failed
+09:48:48 **** Incremental Build of configuration x86_64-debug for project des_controller ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_controller.d,-MT,build/x86_64-debug/src/des_controller.o -o build/x86_64-debug/src/des_controller.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_controller.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/des_controller   build/x86_64-debug/src/des_controller.o  
+09:50:42 **** Incremental Build of configuration x86_64-debug for project des_controller ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_controller.d,-MT,build/x86_64-debug/src/des_controller.o -o build/x86_64-debug/src/des_controller.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_controller.c
+src/des_controller.c: In function 'main':
+src/des_controller.c:51:8: warning: variable 'dpid' set but not used [-Wunused-but-set-variable]
+  pid_t dpid; /* display pid */
+        ^
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/des_controller   build/x86_64-debug/src/des_controller.o  
+09:51:09 **** Incremental Build of configuration x86_64-debug for project des_controller ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_controller.d,-MT,build/x86_64-debug/src/des_controller.o -o build/x86_64-debug/src/des_controller.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_controller.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/des_controller   build/x86_64-debug/src/des_controller.o  
+09:52:21 **** Incremental Build of configuration x86_64-debug for project des_controller ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+09:52:24 **** Incremental Build of configuration x86_64-debug for project des_controller ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+09:54:08 **** Incremental Build of configuration x86_64-debug for project des_controller ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_controller.d,-MT,build/x86_64-debug/src/des_controller.o -o build/x86_64-debug/src/des_controller.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_controller.c
+src/des_controller.c: In function 'main':
+src/des_controller.c:75:26: error: 'chid' undeclared (first use in this function)
+   if((rcvid = MsgReceive(chid,&person,sizeof(person),NULL)) == -1){ /* receive message from client */
+                          ^
+src/des_controller.c:75:26: note: each undeclared identifier is reported only once for each function it appears in
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/des_controller.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/des_controller.o' failed
+09:54:12 **** Incremental Build of configuration x86_64-debug for project des_display ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+09:54:17 **** Incremental Build of configuration x86_64-debug for project des_controller ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_controller.d,-MT,build/x86_64-debug/src/des_controller.o -o build/x86_64-debug/src/des_controller.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_controller.c
+src/des_controller.c: In function 'main':
+src/des_controller.c:75:26: error: 'chid' undeclared (first use in this function)
+   if((rcvid = MsgReceive(chid,&person,sizeof(person),NULL)) == -1){ /* receive message from client */
+                          ^
+src/des_controller.c:75:26: note: each undeclared identifier is reported only once for each function it appears in
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/des_controller.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/des_controller.o' failed
+09:54:31 **** Incremental Build of configuration x86_64-debug for project des_controller ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_controller.d,-MT,build/x86_64-debug/src/des_controller.o -o build/x86_64-debug/src/des_controller.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_controller.c
+src/des_controller.c: In function 'main':
+src/des_controller.c:98:17: error: 'chid' undeclared (first use in this function)
+  ChannelDestroy(chid);/* destroy channel */
+                 ^
+src/des_controller.c:98:17: note: each undeclared identifier is reported only once for each function it appears in
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/des_controller.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/des_controller.o' failed
+09:54:53 **** Incremental Build of configuration x86_64-debug for project des_controller ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_controller.d,-MT,build/x86_64-debug/src/des_controller.o -o build/x86_64-debug/src/des_controller.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_controller.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/des_controller   build/x86_64-debug/src/des_controller.o  
+09:56:04 **** Clean-only build of configuration x86_64-debug for project des_controller ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+09:56:04 **** Clean-only build of configuration x86_64-debug for project des_display ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+09:56:04 **** Clean-only build of configuration x86_64-debug for project des_inputs ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+09:56:07 **** Build of configuration x86_64-debug for project des_display ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_display.d,-MT,build/x86_64-debug/src/des_display.o -o build/x86_64-debug/src/des_display.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_display.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/des_display   build/x86_64-debug/src/des_display.o  
+09:56:10 **** Build of configuration x86_64-debug for project des_controller ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_controller.d,-MT,build/x86_64-debug/src/des_controller.o -o build/x86_64-debug/src/des_controller.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_controller.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/des_controller   build/x86_64-debug/src/des_controller.o  
+09:56:14 **** Build of configuration x86_64-debug for project des_inputs ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_inputs.d,-MT,build/x86_64-debug/src/des_inputs.o -o build/x86_64-debug/src/des_inputs.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_inputs.c
+src/des_inputs.c: In function 'main':
+src/des_inputs.c:47:8: warning: variable 'cpid' set but not used [-Wunused-but-set-variable]
+  pid_t cpid; /* controller pid storage var */
+        ^
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/des_inputs   build/x86_64-debug/src/des_inputs.o  
+09:56:31 **** Clean-only build of configuration x86_64-debug for project des_controller ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+09:56:31 **** Clean-only build of configuration x86_64-debug for project des_display ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+09:56:31 **** Clean-only build of configuration x86_64-debug for project des_inputs ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+09:56:53 **** Build of configuration x86_64-debug for project des_display ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_display.d,-MT,build/x86_64-debug/src/des_display.o -o build/x86_64-debug/src/des_display.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_display.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/des_display   build/x86_64-debug/src/des_display.o  
+09:56:57 **** Incremental Build of configuration x86_64-debug for project des_display ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+09:57:13 **** Build of configuration x86_64-debug for project des_controller ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_controller.d,-MT,build/x86_64-debug/src/des_controller.o -o build/x86_64-debug/src/des_controller.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_controller.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/des_controller   build/x86_64-debug/src/des_controller.o  
+09:57:55 **** Clean-only build of configuration x86_64-debug for project des_controller ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+09:57:56 **** Clean-only build of configuration x86_64-debug for project des_display ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+09:57:56 **** Clean-only build of configuration x86_64-debug for project des_inputs ****
+make -j8 clean 
+rm -fr build/x86_64-debug
+09:57:59 **** Build of configuration x86_64-debug for project des_display ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_display.d,-MT,build/x86_64-debug/src/des_display.o -o build/x86_64-debug/src/des_display.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_display.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/des_display   build/x86_64-debug/src/des_display.o  
+09:58:01 **** Incremental Build of configuration x86_64-debug for project des_display ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+09:58:04 **** Build of configuration x86_64-debug for project des_controller ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_controller.d,-MT,build/x86_64-debug/src/des_controller.o -o build/x86_64-debug/src/des_controller.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_controller.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/des_controller   build/x86_64-debug/src/des_controller.o  
+09:58:06 **** Incremental Build of configuration x86_64-debug for project des_controller ****
+make -j8 all 
+make: Nothing to be done for 'all'.
+09:58:10 **** Build of configuration x86_64-debug for project des_inputs ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_inputs.d,-MT,build/x86_64-debug/src/des_inputs.o -o build/x86_64-debug/src/des_inputs.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_inputs.c
+src/des_inputs.c: In function 'main':
+src/des_inputs.c:51:2: error: 'cpid' undeclared (first use in this function)
+  cpid = atoi(argv[1]); /* get controllers pid from command line arguments */
+  ^
+src/des_inputs.c:51:2: note: each undeclared identifier is reported only once for each function it appears in
+cc: C:/Users/Patrick/qnx700/host/win64/x86_64/usr/lib/gcc/x86_64-pc-nto-qnx7.0.0/5.4.0/cc1 caught signal 1
+make: *** [build/x86_64-debug/src/des_inputs.o] Error 1
+Makefile:55: recipe for target 'build/x86_64-debug/src/des_inputs.o' failed
+09:58:26 **** Incremental Build of configuration x86_64-debug for project des_inputs ****
+make -j8 all 
+qcc -Vgcc_ntox86_64 -c -Wp,-MMD,build/x86_64-debug/src/des_inputs.d,-MT,build/x86_64-debug/src/des_inputs.o -o build/x86_64-debug/src/des_inputs.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/des_inputs.c
+qcc -Vgcc_ntox86_64 -o build/x86_64-debug/des_inputs   build/x86_64-debug/src/des_inputs.o  
+09:58:27 **** Incremental Build of configuration x86_64-debug for project des_inputs ****
+make -j8 all 
+make: Nothing to be done for 'all'.

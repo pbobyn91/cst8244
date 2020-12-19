@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <process.h>
+#include <string.h>
+#include <errno.h>
+#include <unistd.h>
+#include <sys/neutrino.h>
+
+#include "calc_message.h"
+
+int main(void) {
+
+	client_send_t send;
+	server_response_t resp;
+	int chid, rcvid;
+
+	chid = ChannelCreate(0);
+	if (chid == -1){
+		fprintf(stderr, "Could not create channel\n");
+		exit(EXIT_FAILURE);
+	}
+
+	printf("CalcServer PID: %d\n", getpid());
+
+	while(1) {
+		rcvid = MsgReceive(chid, (void*)&send, sizeof(send), NULL);
+		resp.statusCode = SRVR_OK;
+
+		switch(send.operator){
+		case `+`:
+			if ( ((send.right_hand > 0) && (send.left_hand > INT_MAX - send.right_hand))
+					|| ((send.right_hand < 0) && (send.left_hand < INT_MIN + send.right_hand)) ){
+				resp.statusCode = SRVR_OVERFLOW;
+				sprintf(resp.errorMsg, "OVERFLOW: %d + %d", send.left_hand, send.right_hand);
+				break;
+			}
+			resp.answer = send.left_hand + send.right_hand;
+			break;
+		case "-":
+			if (((send.right_hand > 0)
+					&& (send.left_hand < INT_MIN + send.right_hand))
+					|| ((send.right_hand < 0) && (send.left_hand > INT_MAX - send.right_hand)) ){
+				resp.statusCode = SRVR_OVERFLOW;
+				sprintf(resp.errorMsg, "OVERFLOW: %d - %d", send.left_hand, send.right_hand);
+				break;
+			}
+			resp.answer = send.left_hand - send.right_hand;
+			break;
+		case "x":
+			if ( (send.right_hand != 0 && (send.left_hand > INT_MAX / send.right_hand))
+					|| (send.right_hand != 0 && (send.left_hand < INT_MIN / send.right_hand)) ){
+				resp.statusCode = SRVR_OVERFLOW;
+				sprintf(resp.errorMsg, "OVERFLOW: %d x %d", send.left_hand, send.right_hand);
+				break;
+			}
+			resp.answer = send.left_hand * send.right_hand;
+			break;
+		case "/":
+			if (send.right_hand == 0){
+				resp.statusCode = SRVR_UNDEFINED;
+				sprintf(resp.errorMsg, "UNDEFINED: %d / %d\n", send.left_hand, send.right_hand);
+				break;
+			}
+			resp.answer = (double) send.left_hand / (double) send.right_hand;
+			break;
+		default:
+			resp.statusCode = SRVR_INVALID_OPERATOR;
+			sprintf(resp.errorMsg, "INVALID OPERATOR: %c\n", send.operator);
+		}
+
+		MsgReply(rcvid, EOK, &resp, sizeof(resp));
+	}
+
+	ChannelDestroy(chid);
+	return EXIT_SUCCESS;
+}

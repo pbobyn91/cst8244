@@ -1,0 +1,14 @@
+LaunchTargetManager/com.qnx.tools.ide.target.qconn,192.168.136.128/RELEASE=7.0.0
+LaunchTargetManager/com.qnx.tools.ide.target.qconn,192.168.136.128/arch=x86_64
+LaunchTargetManager/com.qnx.tools.ide.target.qconn,192.168.136.128/os=qnx
+LaunchTargetManager/configs/partA_sighandler=com.qnx.tools.ide.target.qconn\:192.168.136.128
+LaunchTargetManager/configs/partB_sigproc=com.qnx.tools.ide.target.qconn\:192.168.136.128
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
+com.qnx.tools.ide.qde.debug.core.descriptorType.project\:P/partA_sighandler/activeLaunchMode=run
+com.qnx.tools.ide.qde.debug.core.descriptorType.project\:P/partA_sighandler/activeLaunchTarget=com.qnx.tools.ide.target.qconn\:192.168.136.128
+com.qnx.tools.ide.qde.debug.core.descriptorType.project\:P/partB_sigproc/activeLaunchMode=run
+com.qnx.tools.ide.qde.debug.core.descriptorType.project\:P/partB_sigproc/activeLaunchTarget=com.qnx.tools.ide.target.qconn\:192.168.136.128
+configDescList=org.eclipse.launchbar.core.descriptorType.default\:partA_sigproc x86_64-debug,com.qnx.tools.ide.qde.debug.core.descriptorType.project\:P/partA_sighandler,com.qnx.tools.ide.qde.debug.core.descriptorType.project\:P/partB_sigproc
+eclipse.preferences.version=1
+org.eclipse.launchbar.core.descriptorType.default\:partA_sigproc\ x86_64-debug/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local

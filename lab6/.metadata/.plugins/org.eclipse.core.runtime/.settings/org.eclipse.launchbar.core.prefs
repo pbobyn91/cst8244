@@ -1,0 +1,12 @@
+LaunchTargetManager/com.qnx.tools.ide.target.qconn,192.168.136.128/RELEASE=7.0.0
+LaunchTargetManager/com.qnx.tools.ide.target.qconn,192.168.136.128/arch=x86_64
+LaunchTargetManager/com.qnx.tools.ide.target.qconn,192.168.136.128/os=qnx
+LaunchTargetManager/configs/des_controller=com.qnx.tools.ide.target.qconn\:192.168.136.128
+LaunchTargetManager/configs/des_display=com.qnx.tools.ide.target.qconn\:192.168.136.128
+LaunchTargetManager/configs/des_inputs=com.qnx.tools.ide.target.qconn\:192.168.136.128
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
+com.qnx.tools.ide.qde.debug.core.descriptorType.project\:P/des_controller/activeLaunchMode=run
+com.qnx.tools.ide.qde.debug.core.descriptorType.project\:P/des_controller/activeLaunchTarget=com.qnx.tools.ide.target.qconn\:192.168.136.128
+configDescList=com.qnx.tools.ide.qde.debug.core.descriptorType.project\:P/des_controller,com.qnx.tools.ide.qde.debug.core.descriptorType.project\:P/des_display,com.qnx.tools.ide.qde.debug.core.descriptorType.project\:P/des_inputs
+eclipse.preferences.version=1
